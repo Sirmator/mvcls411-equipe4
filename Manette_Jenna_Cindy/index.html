@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@300&family=Parisienne&display=swap');
+    </style>
+    <script src=" https://kit.fontawesome.com/3da1a747b2.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/eba5d366fa.js" crossorigin="anonymous"></script>
+
+    <title>Manette Cinna TV</title>
+</head>
+<body>
+   
+    <fieldset>
+        <div class="manette">
+            <p>
+            <h2>Cinna TV</h2>
+            </p> 
+            <br>
+            <div class="connection" id="connectButton">
+                <button><i class="fa-brands fa-chromecast"></i></button>
+            </div>
+            <div class="volume">
+                <button className="volMoins">
+                    <i class="fa-solid fa-volume-off"></i>
+                    <i class="fa-solid fa-minus"></i>
+                </button>
+                <div>
+                    <label class="switch">
+                      <input id="muteToggle" type="checkbox">
+                      <span class="slider round"></span>
+                    </label>
+                    
+                </div>
+                <button className="muteBtn">
+                    <i class="fa-solid fa-volume-xmark"></i>
+                </button>
+                <button class="volPlus">
+                    <i class="fa-solid fa-volume-off"></i>
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            </div>
+            <div class="play" id="startBtn">
+                <button>
+                    <i class="fa-solid fa-play"></i>
+                </button>
+            </div>
+            <div class="backStopFow">
+                <button class="backward" id="prevBtn">
+                    <i class="fa-solid fa-backward-step"></i>
+                </button>
+                <button class="stop">
+                    <i class="fa-solid fa-stop"></i>
+                </button>
+                <button class="foward" id="nextBtn">
+                    <i class="fa-solid fa-forward-step"></i>
+                </button>
+            </div>
+            <div class="playPause">
+                <button class="backwardStep">
+                    <i class="fa-solid fa-backward-step"></i>
+                    <i class="fa-solid fa-backward"></i>
+                </button>
+                <button id="playBtn">
+                    <i class="fa-solid fa-play"></i>
+                    <i class="fa-solid fa-pause"></i>
+                </button>
+                <button class="fowardStep">
+                    <i class="fa-solid fa-forward"></i>
+                    <i class="fa-solid fa-forward-step"></i>
+                </button>
+            </div>
+
+
+            
+            <br>
+           <br>
+            
+        </div>
+    </fieldset>
+    
+    <script src="./script.js"></script>
+    <script src="CastVideos.js" type="module"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
+    
+</body>
+</html>
+
