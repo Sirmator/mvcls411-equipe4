@@ -16,6 +16,8 @@ const videoList = [
     // Add more video URLs as needed
 ];
 
+// QuerySelector collects the className of the given ID 
+// theme = > i 
 const themeToggle = document.getElementById('theme');
 const btn = document.getElementById('btn');
 const icon = document.querySelector('#theme i');
@@ -40,11 +42,43 @@ document.getElementById('connectButton').addEventListener('click', () => {
     initializeApiOnly();
 });
 
+let isMuted = false;
+document.getElementById('muteBtn').addEventListener('click', () => {
+    if (currentSession) {
+        isMuted = !isMuted;
+        currentSession.setReceiverMuted(isMuted, onMediaCommandSuccess, onError);
+    }
+});
+ 
+document.getElementById('volUp').addEventListener('click', () => {
+    if (currentSession) {
+        currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level += 0.1, onMediaCommandSuccess, onError);
+    } else {
+        alert('Connectez-vous sur chromecast en premier');
+    }
+});
+ 
+document.getElementById('volDown').addEventListener('click', () => {
+    if (currentSession) {
+        currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level -= 0.1, onMediaCommandSuccess, onError);
+    } else {
+        alert('Connectez-vous sur chromecast en premier');
+    }
+});
+
 document.getElementById('startBtn').addEventListener('click', () => {
     if (currentSession) {
         loadMedia(videoList[currentVideoIndex]);
     } else {
         alert('Connectez-vous sur chromecast en premier');
+    }
+});
+
+document.getElementById('stoptBtn').addEventListener('click', () => {
+    if (currentSession) {
+        loadMedia(videoList[currentVideoIndex]);
+    } else {
+        alert('Vous devez etre connecter');
     }
 });
 
