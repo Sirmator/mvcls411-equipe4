@@ -84,14 +84,14 @@ document.getElementById('stoptBtn').addEventListener('click', () => {
 
 document.getElementById('nextBtn').addEventListener('click', () => {
     if (currentSession) {
-        currentVideoIndex = (currentVideoIndex === 0 ? videoList.length -1 : currentVideoIndex -1);
+        currentVideoIndex = (currentVideoIndex - 1) % videoList.length;
         loadMedia(videoList[currentVideoIndex]);
     } else {
         alert('Connectez-vous sur chromecast en premier');
     }
 });
 
-document.getElementById('prevBtn').addEventListener('click', () => {
+document.getElementById('nextBtn').addEventListener('click', () => {
     if (currentSession) {
         currentVideoIndex = (currentVideoIndex + 1) % videoList.length;
         loadMedia(videoList[currentVideoIndex]);
