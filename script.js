@@ -67,13 +67,7 @@ document.getElementById('volDown').addEventListener('click', () => {
     }
 });
 
-document.getElementById('startBtn').addEventListener('click', () => {
-    if (currentSession) {
-        loadMedia(videoList[currentVideoIndex]);
-    } else {
-        alert('Connectez-vous sur chromecast en premier');
-    }
-});
+
 
 
 document.getElementById('prevBtn').addEventListener('click', () => {
@@ -105,48 +99,53 @@ document.getElementById('playBtn').addEventListener('click', () => {
     }
 });
 
-document.getElementById('foward').addEventListener('click', () => {
-    if (currentMediaSession) {
-        const seekTime = currentMediaSession.getEstimatedTime() + 15;
-        currentMediaSession.seek(seekTime);
-    }
-});
- 
-document.getElementById('backward').addEventListener('click', () => {
-    if (currentMediaSession) {
-        const seekTime = Math.max(0, currentMediaSession.getEstimatedTime() - 15);
-        currentMediaSession.seek(seekTime);
-    }
-});
+//  document.getElementById('foward').addEventListener('click', () => {
+//      if (currentMediaSession) {
+//          const futureSeekTime = currentMediaSession.getEstimatedTime() + 15;
+//          const seekRequest = new chrome.cast.media.SeekRequest(futureSeekTime);
+//          seekRequest.setCurrentTime = futureSeekTime;
+//          currentMediaSession.seek(seekRequest, onMediaCommandSuccess, onError);
+         
 
-// function sessionListener(newSession) {
-//     currentSession = newSession;
-//     document.getElementById('startBtn').style.display = 'block';
-//     document.getElementById('nextBtn').style.display = 'block';
-// }
+//      }
+//  });
+ 
+//  document.getElementById('backward').addEventListener('click', () => {
+//      if (currentMediaSession) {
+//          const seekTime = Math.max(0, currentMediaSession.getEstimatedTime() - 15);
+//          currentMediaSession.seek(seekTime);
+//      }
+//  });
+
+
+ function sessionListener(newSession) {
+     currentSession = newSession;
+    loadMedia(videoList[currentVideoIndex]);
+
+}
 
 
 function initializeSeekSlider(remotePlayerController, mediaSession) {
     currentMediaSession = mediaSession;
     document.getElementById('playBtn').style.display = 'block';
-   // Set max value of seek slider to media duration in seconds
-   seekSlider.max = mediaSession.media.duration;
+//    // Set max value of seek slider to media duration in seconds
+//    seekSlider.max = mediaSession.media.duration;
 
-    // Update seek slider and time elements on time update
-    updateInterval = setInterval(() => {
-        const currentTime = mediaSession.getEstimatedTime();
-        const totalTime = mediaSession.media.duration;
+//     // Update seek slider and time elements on time update
+//     updateInterval = setInterval(() => {
+//         const currentTime = mediaSession.getEstimatedTime();
+//         const totalTime = mediaSession.media.duration;
   
-        seekSlider.value = currentTime;
-        currentTimeElement.textContent = formatTime(currentTime);
-        totalTimeElement.textContent = formatTime(totalTime);
-      }, 1000); //chaque 1000 ms... 1 sec
+//         seekSlider.value = currentTime;
+//         currentTimeElement.textContent = formatTime(currentTime);
+//         totalTimeElement.textContent = formatTime(totalTime);
+//       }, 1000); //chaque 1000 ms... 1 sec
   
-      // slider change
-      seekSlider.addEventListener('input', () => {
-        const seekTime = parseFloat(seekSlider.value);
-        remotePlayerController.seek(seekTime);
-      });
+//       // slider change
+//       seekSlider.addEventListener('input', () => {
+//         const seekTime = parseFloat(seekSlider.value);
+//         remotePlayerController.seek(seekTime);
+    //   });
  }
 
 function receiverListener(availability) {
@@ -172,7 +171,8 @@ function onMediaCommandSuccess() {
 function initializeApiOnly() {
     
     
-    const sessionRequest = new chrome.cast.SessionRequest(chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID);    const apiConfig = new chrome.cast.ApiConfig(sessionRequest, sessionListener, receiverListener);
+    const sessionRequest = new chrome.cast.SessionRequest(chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID);    
+    const apiConfig = new chrome.cast.ApiConfig(sessionRequest, sessionListener, receiverListener);
 
     chrome.cast.initialize(apiConfig, onInitSuccess, onError);
 }
