@@ -14,7 +14,7 @@ const videoList = [
     'https://transfertco.ca/video/DBillSpotted.mp4',
     'https://transfertco.ca/video/usa23_7_02.mp4',
     'https://chromecast-project.s3.us-east-2.amazonaws.com/Rick+Astley+-+Never+Gonna+Give+You+Up+(Official+Music+Video).mp4'
-    // Add more video URLs as needed
+
 ];
 
 // QuerySelector collects the className of the given ID 
