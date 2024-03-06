@@ -105,18 +105,25 @@ document.getElementById('playBtn').addEventListener('click', () => {
     }
 });
 
- document.getElementById('foward').addEventListener('click', ()=> {
-     if(currentMediaSession) {
-        
-     }
- })
+document.getElementById('foward').addEventListener('click', () => {
+    if (currentMediaSession) {
+        const seekTime = currentMediaSession.getEstimatedTime() + 15;
+        currentMediaSession.seek(seekTime);
+    }
+});
+ 
+document.getElementById('backward').addEventListener('click', () => {
+    if (currentMediaSession) {
+        const seekTime = Math.max(0, currentMediaSession.getEstimatedTime() - 15);
+        currentMediaSession.seek(seekTime);
+    }
+});
 
-
-function sessionListener(newSession) {
-    currentSession = newSession;
-    document.getElementById('startBtn').style.display = 'block';
-    document.getElementById('nextBtn').style.display = 'block';
-}
+// function sessionListener(newSession) {
+//     currentSession = newSession;
+//     document.getElementById('startBtn').style.display = 'block';
+//     document.getElementById('nextBtn').style.display = 'block';
+// }
 
 
 function initializeSeekSlider(remotePlayerController, mediaSession) {
