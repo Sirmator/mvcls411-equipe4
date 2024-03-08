@@ -14,6 +14,8 @@ CINNA TV
 - [x] Connexion ChromeCast / Start
 - [x] Pause / Play
 - [x] Next / Previous
+- [x] Mute
+- [x] Volume Up / Down  
 - [ ] Backward / Foward
 
 *Pour le moment les boutons backward/foward ne fonctionnent pas.*
