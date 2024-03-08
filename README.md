@@ -17,3 +17,12 @@ CINNA TV
 - [ ] Backward / Foward
 
 *Pour le moment les boutons backward/foward ne fonctionnent pas.*
+
+## Installation
+- Cliquez sur Code puis copiez l'adresse https://github.com/domleg45/mvcls411-equipe4.git
+- Gardez votre navigateur web ouvert
+- Ouvrez Visual Studio Code
+- Dans un terminal écrire git clone puis collez l'URL, puis appuyez "enter"
+- Selectionnez index.html
+- Appuyez sur "GoLive" en bas à droite de l'écran
+- Retournez sur votre navigateur web pour acceder à la manette CINNA TV
