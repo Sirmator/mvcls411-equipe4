@@ -26,3 +26,5 @@ CINNA TV
 - Selectionnez index.html
 - Appuyez sur "GoLive" en bas à droite de l'écran
 - Retournez sur votre navigateur web pour acceder à la manette CINNA TV
+- CLiquez droit de la souris et selectionez "caster"
+- Choissez le chromecast
