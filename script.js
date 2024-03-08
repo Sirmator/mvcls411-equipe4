@@ -99,24 +99,23 @@ document.getElementById('playBtn').addEventListener('click', () => {
     }
 });
 
-//  document.getElementById('foward').addEventListener('click', () => {
-//      if (currentMediaSession) {
-//          const futureSeekTime = currentMediaSession.getEstimatedTime() + 15;
-//          const seekRequest = new chrome.cast.media.SeekRequest(futureSeekTime);
-//          seekRequest.setCurrentTime = futureSeekTime;
-//          currentMediaSession.seek(seekRequest, onMediaCommandSuccess, onError);
-         
+document.getElementById('forward').addEventListener('click', () => {
+    if (currentMediaSession) {
+        const futureSeekTime = currentMediaSession.getEstimatedTime() + 15;
+        const seekRequest = new chrome.cast.media.SeekRequest();
+        seekRequest.currentTime = futureSeekTime;
+        currentMediaSession.seek(seekRequest, onMediaCommandSuccess, onError);
+    }
+});
 
-//      }
-//  });
- 
-//  document.getElementById('backward').addEventListener('click', () => {
-//      if (currentMediaSession) {
-//          const seekTime = Math.max(0, currentMediaSession.getEstimatedTime() - 15);
-//          currentMediaSession.seek(seekTime);
-//      }
-//  });
-
+document.getElementById('backward').addEventListener('click', () => {
+    if (currentMediaSession) {
+        const seekTime = Math.max(0, currentMediaSession.getEstimatedTime() - 15);
+        const seekRequest = new chrome.cast.media.SeekRequest();
+        seekRequest.currentTime = seekTime;
+        currentMediaSession.seek(seekRequest, onMediaCommandSuccess, onError);
+    }
+});
 
  function sessionListener(newSession) {
      currentSession = newSession;
