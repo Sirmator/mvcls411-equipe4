@@ -1,10 +1,14 @@
 # mvcls411-equipe4
 CINNA TV
 
-## Authors
+## Original Authors
 
 - :floppy_disk: [@CindyBragdon](https://www.github.com/cindybragdon)
 - :floppy_disk: [@JennaLeeL](https://www.github.com/JennaLeeL)
+
+# Atelier 3 Author - Test A/B
+
+- :dart: [@MarekGromko](https://www.github.com/MarekGromko)
 
 *Les conceptrices de la manette CINNA TV ont pris le temps nécessaire afin de développer un design confortable et facile d’accès pour rendre l’expérience utilisateur incroyable.* 
   
