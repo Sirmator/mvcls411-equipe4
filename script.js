@@ -4,17 +4,12 @@ let currentMediaSession;
 let isPlaying = true;
 let currentVideoIndex = 0;
 let currentVideoUrl;
-let updateInterval;
-const seekSlider = document.getElementById('seekSlider');
-const currentTimeElement = document.getElementById('currentTime');
-const totalTimeElement = document.getElementById('totalTime');
 const defaultContentType = 'video/mp4';
 const videoList = [
     'https://transfertco.ca/video/DBillPrelude.mp4',
     'https://transfertco.ca/video/DBillSpotted.mp4',
     'https://transfertco.ca/video/usa23_7_02.mp4',
     'https://chromecast-project.s3.us-east-2.amazonaws.com/Rick+Astley+-+Never+Gonna+Give+You+Up+(Official+Music+Video).mp4'
-
 ];
 
 // QuerySelector collects the className of the given ID 
@@ -23,6 +18,7 @@ const themeToggle = document.getElementById('theme');
 const btn = document.getElementById('btn');
 const icon = document.querySelector('#theme i');
 const bouton = document.querySelector('#btn i');
+const volumeValue = document.querySelector('#volumeValue');
 
 themeToggle.addEventListener('click', function() {
     const currentTheme = document.body.getAttribute('data-bs-theme');
@@ -42,18 +38,12 @@ themeToggle.addEventListener('click', function() {
 document.getElementById('connectButton').addEventListener('click', () => {
     initializeApiOnly();
 });
-
-let isMuted = false;
-document.getElementById('muteBtn').addEventListener('click', () => {
-    if (currentSession) {
-        isMuted = !isMuted;
-        currentSession.setReceiverMuted(isMuted, onMediaCommandSuccess, onError);
-    }
-});
  
 document.getElementById('volUp').addEventListener('click', () => {
     if (currentSession) {
-        currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level += 0.1, onMediaCommandSuccess, onError);
+        value = currentSession.receiver.volume.level += 0.1;
+        formatVolume(value);
+        currentSession.setReceiverVolumeLevel(value, onMediaCommandSuccess, onError);
     } else {
         alert('Connectez-vous sur chromecast en premier');
     }
@@ -61,7 +51,9 @@ document.getElementById('volUp').addEventListener('click', () => {
  
 document.getElementById('volDown').addEventListener('click', () => {
     if (currentSession) {
-        currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level -= 0.1, onMediaCommandSuccess, onError);
+        value = currentSession.receiver.volume.level -= 0.1;
+        formatVolume(value);
+        currentSession.setReceiverVolumeLevel(value, onMediaCommandSuccess, onError);
     } else {
         alert('Connectez-vous sur chromecast en premier');
     }
@@ -96,6 +88,7 @@ document.getElementById('playBtn').addEventListener('click', () => {
             currentMediaSession.play(null, onMediaCommandSuccess, onError);
         }
         isPlaying = !isPlaying;
+        swapPlayPause();
     }
 });
 
@@ -117,41 +110,22 @@ document.getElementById('backward').addEventListener('click', () => {
     }
 });
 
- function sessionListener(newSession) {
-     currentSession = newSession;
+function sessionListener(newSession) {
+    currentSession = newSession;
     loadMedia(videoList[currentVideoIndex]);
-
+    let cbtn = document.getElementById('connectButton');
+    cbtn.classList.remove("btn-outline-secondary");
+    cbtn.classList.remove("btn-outline-success");
+    //cbtn.classList.remove('btn-outline-secondary');
 }
-
-
-function initializeSeekSlider(remotePlayerController, mediaSession) {
-    currentMediaSession = mediaSession;
-    document.getElementById('playBtn').style.display = 'block';
-//    // Set max value of seek slider to media duration in seconds
-//    seekSlider.max = mediaSession.media.duration;
-
-//     // Update seek slider and time elements on time update
-//     updateInterval = setInterval(() => {
-//         const currentTime = mediaSession.getEstimatedTime();
-//         const totalTime = mediaSession.media.duration;
-  
-//         seekSlider.value = currentTime;
-//         currentTimeElement.textContent = formatTime(currentTime);
-//         totalTimeElement.textContent = formatTime(totalTime);
-//       }, 1000); //chaque 1000 ms... 1 sec
-  
-//       // slider change
-//       seekSlider.addEventListener('input', () => {
-//         const seekTime = parseFloat(seekSlider.value);
-//         remotePlayerController.seek(seekTime);
-    //   });
- }
 
 function receiverListener(availability) {
     if (availability === chrome.cast.ReceiverAvailability.AVAILABLE) {
-        document.getElementById('connectButton').style.display = 'block';
+        ///
     } else {
-        document.getElementById('connectButton').style.display = 'none';
+        let cbtn = document.getElementById('connectButton');
+        cbtn.classList.remove("btn-outline-secondary");
+        cbtn.classList.add("btn-outline-danger");
     }
 }
 
@@ -168,8 +142,7 @@ function onMediaCommandSuccess() {
 }
 
 function initializeApiOnly() {
-    
-    
+    document.getElementById('connectButton').setAttribute('disabled', '');
     const sessionRequest = new chrome.cast.SessionRequest(chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID);    
     const apiConfig = new chrome.cast.ApiConfig(sessionRequest, sessionListener, receiverListener);
 
@@ -185,12 +158,28 @@ function loadMedia(videoUrl) {
 
     currentSession.loadMedia(request, mediaSession => {
         console.log('Media chargé avec succès');
-        initializeSeekSlider(remotePlayerController, mediaSession);
       }, onError);
+}
+
+function swapPausePlay()
+{
+    if(isPlaying)
+    {
+        document.querySelector("i#playPauseIcon").classList.remove("fa-play");
+        document.querySelector("i#playPauseIcon").classList.add("fa-pause");
+    } else {
+        document.querySelector("i#playPauseIcon").classList.add("fa-play");
+        document.querySelector("i#playPauseIcon").classList.remove("fa-pause");
+    }
 }
 
 function formatTime(timeInSeconds) {
     const minutes = Math.floor(timeInSeconds / 60);
     const seconds = Math.floor(timeInSeconds % 60);
     return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+}
+
+function formatVolume(value)
+{
+    volumeValue.innerText = `${Math.max(Math.min((value,1),0)*100) | 0}%`;
 }

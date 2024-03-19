@@ -45,6 +45,15 @@ body[data-bs-theme="light"] {
     color: #333;
 }
 
+#volumeValue{
+    width: 5em;
+    text-align: center;
+    font-weight: bold;
+    font-style: italic;
+    opacity: 50%;
+    margin: auto 0;
+}
+
 
 
 
