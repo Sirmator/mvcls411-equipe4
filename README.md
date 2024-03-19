@@ -1,17 +1,12 @@
-# mvcls411-equipe4
+### mvcls411-equipe4
 CINNA TV
-
-## Original Authors
-
+### Original Authors
 - :floppy_disk: [@CindyBragdon](https://www.github.com/cindybragdon)
 - :floppy_disk: [@JennaLeeL](https://www.github.com/JennaLeeL)
-
+*Les conceptrices de la manette CINNA TV ont pris le temps nécessaire afin de développer un design confortable et facile d’accès pour rendre l’expérience utilisateur incroyable.* 
 # Atelier 3 Author - Test A/B
 
-- :dart: [@MarekGromko](https://www.github.com/MarekGromko)
-
-*Les conceptrices de la manette CINNA TV ont pris le temps nécessaire afin de développer un design confortable et facile d’accès pour rendre l’expérience utilisateur incroyable.* 
-  
+- :dart: [@MarekGromko](https://www.github.com/MarekGromko) - 1992688
 
 ## Fonctionalities 
 - [x] Dark/Light mode
