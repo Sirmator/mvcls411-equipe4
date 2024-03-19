@@ -1,5 +1,5 @@
-### mvcls411-equipe4
-CINNA TV
+mvcls411-equipe4 - CINNA TV
+
 ### Original Authors
 - :floppy_disk: [@CindyBragdon](https://www.github.com/cindybragdon)
 - :floppy_disk: [@JennaLeeL](https://www.github.com/JennaLeeL)
