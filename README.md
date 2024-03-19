@@ -3,6 +3,7 @@ CINNA TV
 ### Original Authors
 - :floppy_disk: [@CindyBragdon](https://www.github.com/cindybragdon)
 - :floppy_disk: [@JennaLeeL](https://www.github.com/JennaLeeL)
+
 *Les conceptrices de la manette CINNA TV ont pris le temps nécessaire afin de développer un design confortable et facile d’accès pour rendre l’expérience utilisateur incroyable.* 
 # Atelier 3 Author - Test A/B
 
