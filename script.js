@@ -54,7 +54,7 @@ document.getElementById('muteBtn').addEventListener('click', () => {
 document.getElementById('volUp').addEventListener('click', () => {
     if (currentSession) {
         currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level += 0.1, onMediaCommandSuccess, onError);
-        document.getElementById('currentVolume').value = currentSession.receiver.volume.level;
+        document.getElementById('currentVolume').value = currentSession.receiver.volume.level * 100;
     } else {
         alert('Connectez-vous sur chromecast en premier');
     }
@@ -64,7 +64,7 @@ document.getElementById('volDown').addEventListener('click', () => {
     if (currentSession) {
         console.log(currentSession.receiver.volume.level)
         currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level -= 0.1, onMediaCommandSuccess, onError);
-        document.getElementById('currentVolume').value = currentSession.receiver.volume.level;
+        document.getElementById('currentVolume').value = currentSession.receiver.volume.level * 100;
     } else {
         alert('Connectez-vous sur chromecast en premier');
     }
@@ -96,9 +96,11 @@ document.getElementById('playBtn').addEventListener('click', () => {
         if (isPlaying) {
             currentMediaSession.pause(null, onMediaCommandSuccess, onError);
             document.getElementById('pause').style.color = 'green';
+            document.getElementById('play').style.color = '#333';
         } else {
             currentMediaSession.play(null, onMediaCommandSuccess, onError);
             document.getElementById('play').style.color = 'green';
+            document.getElementById('pause').style.color = '#333';
         }
         isPlaying = !isPlaying;
     }
