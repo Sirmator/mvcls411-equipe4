@@ -36,6 +36,8 @@
             <i class="fa-solid fa-plus"></i>
         </button>
     </div>
+    <label for="file">Current volume:</label>
+    <progress id="currentVolume" value="50" max="100"></progress>
     <br>
     <div class="btn-group btn-group-lg" role="group" aria-label="Small button group"> 
         <button type="button" class="btn btn-outline-secondary" id="prevBtn">
@@ -54,8 +56,8 @@
             <i class="fa-solid fa-backward"></i>
         </button>
         <button type="button" class="btn btn-outline-secondary" id="playBtn">
-            <i class="fa-solid fa-play"></i>
-            <i class="fa-solid fa-pause"></i>
+            <i id="play" class="fa-solid fa-play"></i>
+            <i id="pause" class="fa-solid fa-pause"></i>
         </button>
         <button type="button" class="btn btn-outline-secondary" id="foward">
             <i class="fa-solid fa-forward"></i>
