@@ -55,6 +55,7 @@ document.getElementById('volUp').addEventListener('click', () => {
     if (currentSession) {
         currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level += 0.1, onMediaCommandSuccess, onError);
         document.getElementById('currentVolume').value = currentSession.receiver.volume.level * 100;
+        document.getElementById('volumeValue').innerHTML = "Current volume: " + currentSession.receiver.volume.level * 100;
     } else {
         alert('Connectez-vous sur chromecast en premier');
     }
@@ -65,6 +66,7 @@ document.getElementById('volDown').addEventListener('click', () => {
         console.log(currentSession.receiver.volume.level)
         currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level -= 0.1, onMediaCommandSuccess, onError);
         document.getElementById('currentVolume').value = currentSession.receiver.volume.level * 100;
+        document.getElementById('volumeValue').innerHTML = "Current volume: " + currentSession.receiver.volume.level * 100;
     } else {
         alert('Connectez-vous sur chromecast en premier');
     }
