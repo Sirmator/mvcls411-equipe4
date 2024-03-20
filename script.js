@@ -16,6 +16,7 @@ const videoList = [
     'https://chromecast-project.s3.us-east-2.amazonaws.com/Rick+Astley+-+Never+Gonna+Give+You+Up+(Official+Music+Video).mp4'
 
 ];
+let currentVolume = 0.48
 
 // QuerySelector collects the className of the given ID 
 // theme = > i 
@@ -52,22 +53,31 @@ document.getElementById('muteBtn').addEventListener('click', () => {
 });
  
 document.getElementById('volUp').addEventListener('click', () => {
-    if (currentSession) {
-        currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level += 0.1, onMediaCommandSuccess, onError);
+    if (true && currentVolume < 1) {
+        currentVolume += 0.04
+        //currentSession.setReceiverVolumeLevel(currentVolume, onMediaCommandSuccess, onError);
+        document.getElementById('currentVolume').innerHTML = parseInt(currentVolume * 25)
     } else {
         alert('Connectez-vous sur chromecast en premier');
     }
+    // if (currentSession) {
+    //     currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level += 0.1, onMediaCommandSuccess, onError);
+    // } else {
+    //     alert('Connectez-vous sur chromecast en premier');
+    // }
 });
  
 document.getElementById('volDown').addEventListener('click', () => {
-    if (currentSession) {
-        currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level -= 0.1, onMediaCommandSuccess, onError);
+    if (true && currentVolume > 0) {
+        currentVolume -= 0.04
+        //currentSession.setReceiverVolumeLevel(currentVolume, onMediaCommandSuccess, onError);
+        document.getElementById('currentVolume').innerHTML = parseInt(currentVolume * 25)
     } else {
         alert('Connectez-vous sur chromecast en premier');
     }
 });
 
-
+document.getElementById('currentVolume').innerHTML = currentVolume * 25
 
 
 document.getElementById('prevBtn').addEventListener('click', () => {
@@ -89,14 +99,20 @@ document.getElementById('nextBtn').addEventListener('click', () => {
 });
 
 document.getElementById('playBtn').addEventListener('click', () => {
-    if (currentMediaSession) {
-        if (isPlaying) {
-            currentMediaSession.pause(null, onMediaCommandSuccess, onError);
-        } else {
-            currentMediaSession.play(null, onMediaCommandSuccess, onError);
-        }
-        isPlaying = !isPlaying;
+    if (isPlaying) {
+        document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-pause"></i>'
+    } else {
+        document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-play"></i>'
     }
+    isPlaying = !isPlaying;
+    // if (currentMediaSession) {
+    //     if (isPlaying) {
+    //         currentMediaSession.pause(null, onMediaCommandSuccess, onError);
+    //     } else {
+    //         currentMediaSession.play(null, onMediaCommandSuccess, onError);
+    //     }
+    //     isPlaying = !isPlaying;
+    // }
 });
 
 document.getElementById('forward').addEventListener('click', () => {
