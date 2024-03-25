@@ -147,7 +147,7 @@ document.getElementById('playBtn').addEventListener('click', () => {
 }
 
 
-function initializeSeekSlider(mediaSession) {
+function initializeSeekSlider(remotePlayerController, mediaSession) {
     currentMediaSession = mediaSession;
     document.getElementById('playBtn').style.display = 'block';
  }
