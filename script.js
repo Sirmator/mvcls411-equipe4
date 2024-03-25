@@ -15,6 +15,7 @@ const videoList = [
     'https://chromecast-project.s3.us-east-2.amazonaws.com/Rick+Astley+-+Never+Gonna+Give+You+Up+(Official+Music+Video).mp4'
 
 ];
+let currentVolume = 0.48
 
 // QuerySelector collects the className of the given ID 
 // theme = > i 
@@ -128,24 +129,6 @@ document.getElementById('backward').addEventListener('click', () => {
 function initializeSeekSlider(remotePlayerController, mediaSession) {
     currentMediaSession = mediaSession;
     document.getElementById('playBtn').style.display = 'block';
-//    // Set max value of seek slider to media duration in seconds
-//    seekSlider.max = mediaSession.media.duration;
-
-//     // Update seek slider and time elements on time update
-//     updateInterval = setInterval(() => {
-//         const currentTime = mediaSession.getEstimatedTime();
-//         const totalTime = mediaSession.media.duration;
-  
-//         seekSlider.value = currentTime;
-//         currentTimeElement.textContent = formatTime(currentTime);
-//         totalTimeElement.textContent = formatTime(totalTime);
-//       }, 1000); //chaque 1000 ms... 1 sec
-  
-//       // slider change
-//       seekSlider.addEventListener('input', () => {
-//         const seekTime = parseFloat(seekSlider.value);
-//         remotePlayerController.seek(seekTime);
-    //   });
  }
 
 function receiverListener(availability) {
@@ -195,24 +178,7 @@ function formatTime(timeInSeconds) {
     const seconds = Math.floor(timeInSeconds % 60);
     return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 }
-// let currentSession;
-// let currentMediaSession;
-// let isPlaying = true;
-// let currentVideoIndex = 0;
-// let currentVideoUrl;
-// let updateInterval;
-// const seekSlider = document.getElementById('seekSlider');
-// const currentTimeElement = document.getElementById('currentTime');
-// const totalTimeElement = document.getElementById('totalTime');
-// const defaultContentType = 'video/mp4';
-// const videoList = [
-//     'https://transfertco.ca/video/DBillPrelude.mp4',
-//     'https://transfertco.ca/video/DBillSpotted.mp4',
-//     'https://transfertco.ca/video/usa23_7_02.mp4',
-//     'https://chromecast-project.s3.us-east-2.amazonaws.com/Rick+Astley+-+Never+Gonna+Give+You+Up+(Official+Music+Video).mp4'
 
-// ];
-// let currentVolume = 0.48
 
 // const themeToggle = document.getElementById('theme');
 // const btn = document.getElementById('btn');
