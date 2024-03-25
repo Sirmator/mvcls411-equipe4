@@ -102,8 +102,8 @@ document.getElementById('nextBtn').addEventListener('click', () => {
 });
 
 document.getElementById('playBtn').addEventListener('click', () => {
-    if(currentSession){
-        if (isPlaying) {
+    if(currentMediaSession){
+        if (true) {
             currentMediaSession.pause(null, onMediaCommandSuccess, onError);
             document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-pause"></i>'
         } else {
