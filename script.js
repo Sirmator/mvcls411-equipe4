@@ -67,26 +67,25 @@ document.getElementById('volDown').addEventListener('click', () => {
     }
 });
 
+// Faire un feed back volume Ici
 
+// document.getElementById('prevBtn').addEventListener('click', () => {
+//     if (currentSession) {
+//         currentVideoIndex = (currentVideoIndex - 1) % videoList.length;
+//         loadMedia(videoList[currentVideoIndex]);
+//     } else {
+//         alert('Connectez-vous sur chromecast en premier');
+//     }
+// });
 
-
-document.getElementById('prevBtn').addEventListener('click', () => {
-    if (currentSession) {
-        currentVideoIndex = (currentVideoIndex - 1) % videoList.length;
-        loadMedia(videoList[currentVideoIndex]);
-    } else {
-        alert('Connectez-vous sur chromecast en premier');
-    }
-});
-
-document.getElementById('nextBtn').addEventListener('click', () => {
-    if (currentSession) {
-        currentVideoIndex = (currentVideoIndex + 1) % videoList.length;
-        loadMedia(videoList[currentVideoIndex]);
-    } else {
-        alert('Connectez-vous sur chromecast en premier');
-    }
-});
+// document.getElementById('nextBtn').addEventListener('click', () => {
+//     if (currentSession) {
+//         currentVideoIndex = (currentVideoIndex + 1) % videoList.length;
+//         loadMedia(videoList[currentVideoIndex]);
+//     } else {
+//         alert('Connectez-vous sur chromecast en premier');
+//     }
+// });
 
 document.getElementById('playBtn').addEventListener('click', () => {
     if (currentMediaSession) {
