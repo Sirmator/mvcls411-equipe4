@@ -42,6 +42,7 @@ themeToggle.addEventListener('click', function() {
 document.getElementById('connectButton').addEventListener('click', () => {
     initializeApiOnly();
     if (currentSession) {
+        document.getElementById("connectButton").style.color = "green";
         currentSession.setReceiverVolumeLevel(0.4, onMediaCommandSuccess, onError);
     }
 });
