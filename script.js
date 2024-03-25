@@ -56,7 +56,7 @@ document.getElementById('muteBtn').addEventListener('click', () => {
  
 document.getElementById('volUp').addEventListener('click', () => {
     if (currentSession) {
-        currentSession.setReceiverVolumeLevel(Math.round((currentSession.receiver.volume.level += 0.1) *100)/100, onMediaCommandSuccess, onError);
+        currentSession.setReceiverVolumeLevel(Math.round((currentSession.receiver.volume.level += 0.04) *100)/100, onMediaCommandSuccess, onError);
         console.log(currentSession.receiver.volume.level)
         let readableVolume = Math.round(currentSession.receiver.volume.level * 25);
         document.getElementById('currentVolume').value = readableVolume;
@@ -68,7 +68,7 @@ document.getElementById('volUp').addEventListener('click', () => {
  
 document.getElementById('volDown').addEventListener('click', () => {
     if (currentSession) {
-        currentSession.setReceiverVolumeLevel(Math.round((currentSession.receiver.volume.level -= 0.1) *100)/100, onMediaCommandSuccess, onError);
+        currentSession.setReceiverVolumeLevel(Math.round((currentSession.receiver.volume.level -= 0.04) *100)/100, onMediaCommandSuccess, onError);
         console.log(currentSession.receiver.volume.level)
         let readableVolume = Math.round(currentSession.receiver.volume.level * 25);
         document.getElementById('currentVolume').value = readableVolume;
