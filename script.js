@@ -42,7 +42,6 @@ themeToggle.addEventListener('click', function() {
 document.getElementById('connectButton').addEventListener('click', () => {
     initializeApiOnly();
     document.getElementById("connectButton").style.color = "green";
-    currentSession.setReceiverVolumeLevel(0.4, onMediaCommandSuccess, onError);
 });
 
 let isMuted = false;
@@ -114,6 +113,8 @@ document.getElementById('playBtn').addEventListener('click', () => {
             document.getElementById('pause').style.color = '#333';
         }
         isPlaying = !isPlaying;
+    } else {
+        alert('Connectez-vous sur chromecast en premier');
     }
 });
 
@@ -123,6 +124,8 @@ document.getElementById('forward').addEventListener('click', () => {
         const seekRequest = new chrome.cast.media.SeekRequest();
         seekRequest.currentTime = futureSeekTime;
         currentMediaSession.seek(seekRequest, onMediaCommandSuccess, onError);
+    } else {
+        alert('Connectez-vous sur chromecast en premier');
     }
 });
 
@@ -132,13 +135,16 @@ document.getElementById('backward').addEventListener('click', () => {
         const seekRequest = new chrome.cast.media.SeekRequest();
         seekRequest.currentTime = seekTime;
         currentMediaSession.seek(seekRequest, onMediaCommandSuccess, onError);
+    } else {
+        alert('Connectez-vous sur chromecast en premier');
     }
 });
 
  function sessionListener(newSession) {
-     currentSession = newSession;
+    currentSession = newSession;
     loadMedia(videoList[currentVideoIndex]);
-
+    currentSession.setReceiverVolumeLevel(0.4, onMediaCommandSuccess, onError);
+    document.getElementById('volumeValue').innerHTML = "Current volume: 10";
 }
 
 
