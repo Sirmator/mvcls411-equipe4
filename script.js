@@ -56,11 +56,13 @@ document.getElementById('muteBtn').addEventListener('click', () => {
  
 document.getElementById('volUp').addEventListener('click', () => {
     if (currentSession) {
-        currentSession.setReceiverVolumeLevel(Math.round((currentSession.receiver.volume.level += 0.04) *100)/100, onMediaCommandSuccess, onError);
-        console.log(currentSession.receiver.volume.level)
-        let readableVolume = Math.round(currentSession.receiver.volume.level * 25);
-        document.getElementById('currentVolume').value = readableVolume;
-        document.getElementById('volumeValue').innerHTML = "Current volume: " + readableVolume;
+        if (currentSession.receiver.volume.level < 1) {
+            currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level += 0.04, onMediaCommandSuccess, onError);
+            console.log(currentSession.receiver.volume.level)
+            let readableVolume = Math.round(currentSession.receiver.volume.level * 25);
+            document.getElementById('currentVolume').value = readableVolume;
+            document.getElementById('volumeValue').innerHTML = "Current volume: " + readableVolume;
+        }
     } else {
         alert('Connectez-vous sur chromecast en premier');
     }
@@ -68,11 +70,13 @@ document.getElementById('volUp').addEventListener('click', () => {
  
 document.getElementById('volDown').addEventListener('click', () => {
     if (currentSession) {
-        currentSession.setReceiverVolumeLevel(Math.round((currentSession.receiver.volume.level -= 0.04) *100)/100, onMediaCommandSuccess, onError);
-        console.log(currentSession.receiver.volume.level)
-        let readableVolume = Math.round(currentSession.receiver.volume.level * 25);
-        document.getElementById('currentVolume').value = readableVolume;
-        document.getElementById('volumeValue').innerHTML = "Current volume: " + readableVolume;
+        if (currentSession.receiver.volume.level > 0) {
+            currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level -= 0.04, onMediaCommandSuccess, onError);
+            console.log(currentSession.receiver.volume.level)
+            let readableVolume = Math.round(currentSession.receiver.volume.level * 25);
+            document.getElementById('currentVolume').value = readableVolume;
+            document.getElementById('volumeValue').innerHTML = "Current volume: " + readableVolume;
+        }
     } else {
         alert('Connectez-vous sur chromecast en premier');
     }
