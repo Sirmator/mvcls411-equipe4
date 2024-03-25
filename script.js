@@ -18,8 +18,6 @@ const videoList = [
 ];
 let currentVolume = 0.48
 
-// QuerySelector collects the className of the given ID 
-// theme = > i 
 const themeToggle = document.getElementById('theme');
 const btn = document.getElementById('btn');
 const icon = document.querySelector('#theme i');
@@ -45,6 +43,7 @@ document.getElementById('connectButton').addEventListener('click', () => {
 });
 
 let isMuted = false;
+let volumeBeforeMute = currentVolume;
 document.getElementById('muteBtn').addEventListener('click', () => {
     if (currentSession) {
         isMuted = !isMuted;
@@ -53,27 +52,31 @@ document.getElementById('muteBtn').addEventListener('click', () => {
 });
  
 document.getElementById('volUp').addEventListener('click', () => {
-    if (true && currentVolume < 1) {
+    if(!currentSession){
+        alert('Connectez-vous sur chromecast en premier')
+        return
+    }
+    
+    if (currentVolume < 1) {
         currentVolume += 0.04
-        //currentSession.setReceiverVolumeLevel(currentVolume, onMediaCommandSuccess, onError);
+        currentSession.setReceiverVolumeLevel(currentVolume, onMediaCommandSuccess, onError);
         document.getElementById('currentVolume').innerHTML = parseInt(currentVolume * 25)
     } else {
-        alert('Connectez-vous sur chromecast en premier');
+        alert("Volume maximum de 25 déja atteint");
     }
-    // if (currentSession) {
-    //     currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level += 0.1, onMediaCommandSuccess, onError);
-    // } else {
-    //     alert('Connectez-vous sur chromecast en premier');
-    // }
 });
  
 document.getElementById('volDown').addEventListener('click', () => {
-    if (true && currentVolume > 0) {
+    if(!currentSession){
+        alert('Connectez-vous sur chromecast en premier')
+        return
+    }
+    if (currentVolume > 0) {
         currentVolume -= 0.04
-        //currentSession.setReceiverVolumeLevel(currentVolume, onMediaCommandSuccess, onError);
+        currentSession.setReceiverVolumeLevel(currentVolume, onMediaCommandSuccess, onError);
         document.getElementById('currentVolume').innerHTML = parseInt(currentVolume * 25)
     } else {
-        alert('Connectez-vous sur chromecast en premier');
+        alert("Volume minimum de 0 déja atteint");
     }
 });
 
@@ -99,39 +102,35 @@ document.getElementById('nextBtn').addEventListener('click', () => {
 });
 
 document.getElementById('playBtn').addEventListener('click', () => {
-    if (isPlaying) {
-        document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-pause"></i>'
-    } else {
-        document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-play"></i>'
-    }
-    isPlaying = !isPlaying;
-    // if (currentMediaSession) {
-    //     if (isPlaying) {
-    //         currentMediaSession.pause(null, onMediaCommandSuccess, onError);
-    //     } else {
-    //         currentMediaSession.play(null, onMediaCommandSuccess, onError);
-    //     }
-    //     isPlaying = !isPlaying;
-    // }
-});
-
-document.getElementById('forward').addEventListener('click', () => {
-    if (currentMediaSession) {
-        const futureSeekTime = currentMediaSession.getEstimatedTime() + 15;
-        const seekRequest = new chrome.cast.media.SeekRequest();
-        seekRequest.currentTime = futureSeekTime;
-        currentMediaSession.seek(seekRequest, onMediaCommandSuccess, onError);
+    if(currentSession){
+        if (isPlaying) {
+            currentMediaSession.pause(null, onMediaCommandSuccess, onError);
+            document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-pause"></i>'
+        } else {
+            currentMediaSession.play(null, onMediaCommandSuccess, onError);
+            document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-play"></i>'
+        }
+        isPlaying = !isPlaying;
     }
 });
 
-document.getElementById('backward').addEventListener('click', () => {
-    if (currentMediaSession) {
-        const seekTime = Math.max(0, currentMediaSession.getEstimatedTime() - 15);
-        const seekRequest = new chrome.cast.media.SeekRequest();
-        seekRequest.currentTime = seekTime;
-        currentMediaSession.seek(seekRequest, onMediaCommandSuccess, onError);
-    }
-});
+// document.getElementById('forward').addEventListener('click', () => {
+//     if (currentMediaSession) {
+//         const futureSeekTime = currentMediaSession.getEstimatedTime() + 15;
+//         const seekRequest = new chrome.cast.media.SeekRequest();
+//         seekRequest.currentTime = futureSeekTime;
+//         currentMediaSession.seek(seekRequest, onMediaCommandSuccess, onError);
+//     }
+// });
+
+// document.getElementById('backward').addEventListener('click', () => {
+//     if (currentMediaSession) {
+//         const seekTime = Math.max(0, currentMediaSession.getEstimatedTime() - 15);
+//         const seekRequest = new chrome.cast.media.SeekRequest();
+//         seekRequest.currentTime = seekTime;
+//         currentMediaSession.seek(seekRequest, onMediaCommandSuccess, onError);
+//     }
+// });
 
  function sessionListener(newSession) {
      currentSession = newSession;
@@ -140,34 +139,16 @@ document.getElementById('backward').addEventListener('click', () => {
 }
 
 
-function initializeSeekSlider(remotePlayerController, mediaSession) {
+function initializeSeekSlider(mediaSession) {
     currentMediaSession = mediaSession;
     document.getElementById('playBtn').style.display = 'block';
-//    // Set max value of seek slider to media duration in seconds
-//    seekSlider.max = mediaSession.media.duration;
-
-//     // Update seek slider and time elements on time update
-//     updateInterval = setInterval(() => {
-//         const currentTime = mediaSession.getEstimatedTime();
-//         const totalTime = mediaSession.media.duration;
-  
-//         seekSlider.value = currentTime;
-//         currentTimeElement.textContent = formatTime(currentTime);
-//         totalTimeElement.textContent = formatTime(totalTime);
-//       }, 1000); //chaque 1000 ms... 1 sec
-  
-//       // slider change
-//       seekSlider.addEventListener('input', () => {
-//         const seekTime = parseFloat(seekSlider.value);
-//         remotePlayerController.seek(seekTime);
-    //   });
  }
 
 function receiverListener(availability) {
     if (availability === chrome.cast.ReceiverAvailability.AVAILABLE) {
-        document.getElementById('connectButton').style.display = 'block';
+        document.getElementById('connectButton').style.color = 'green';
     } else {
-        document.getElementById('connectButton').style.display = 'none';
+        document.getElementById('connectButton').style.color = 'red';
     }
 }
 
