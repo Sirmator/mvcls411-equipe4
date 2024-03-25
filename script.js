@@ -88,11 +88,13 @@ document.getElementById('nextBtn').addEventListener('click', () => {
 });
 
 document.getElementById('playBtn').addEventListener('click', () => {
-    if (currentMediaSession) {
+    if(currentMediaSession){
         if (isPlaying) {
             currentMediaSession.pause(null, onMediaCommandSuccess, onError);
+            document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-pause"></i>'
         } else {
             currentMediaSession.play(null, onMediaCommandSuccess, onError);
+            document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-play"></i>'
         }
         isPlaying = !isPlaying;
     }
