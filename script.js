@@ -40,17 +40,40 @@ themeToggle.addEventListener('click', function() {
 });
 
 document.getElementById('connectButton').addEventListener('click', () => {
-    initializeApiOnly();
-    document.getElementById("connectButton").style.color = "green";
+    if (!currentSession) {
+        initializeApiOnly();
+        document.getElementById("connectButton").style.color = "green";
+    } else {
+        currentSession = null;
+        currentMediaSession = null;
+        document.getElementById("connectButton").style.color = "";
+        alert("Chromecast killed");
+        location.reload();
+    }
 });
 
 let isMuted = false;
 document.getElementById('muteBtn').addEventListener('click', () => {
     if (currentSession) {
-        isMuted = !isMuted;
-        currentSession.setReceiverMuted(isMuted, onMediaCommandSuccess, onError);
+        if (!isMuted) {
+            swapIcon(false);
+        } else {
+            isMuted = true;
+            currentSession.setReceiverMuted(isMuted, onMediaCommandSuccess, onError);
+            swapIcon(true);
+        }
     }
 });
+
+function swapIcon(bool) {
+    if (bool) {
+        document.getElementById("muted").style.display = "block"
+        document.getElementById("unmuted").style.display = "none"
+    } else if (!bool) {
+        document.getElementById("muted").style.display = "none"
+        document.getElementById("unmuted").style.display = "block"   
+    }
+}
  
 document.getElementById('volUp').addEventListener('click', () => {
     if (currentSession) {
@@ -60,6 +83,7 @@ document.getElementById('volUp').addEventListener('click', () => {
             let readableVolume = Math.round(currentSession.receiver.volume.level * 25);
             document.getElementById('currentVolume').value = readableVolume;
             document.getElementById('volumeValue').innerHTML = "Current volume: " + readableVolume;
+            swapIcon(false);
         }
     } else {
         alert('Connectez-vous sur chromecast en premier');
@@ -74,6 +98,12 @@ document.getElementById('volDown').addEventListener('click', () => {
             let readableVolume = Math.round(currentSession.receiver.volume.level * 25);
             document.getElementById('currentVolume').value = readableVolume;
             document.getElementById('volumeValue').innerHTML = "Current volume: " + readableVolume;
+            swapIcon(false);
+        } else {
+            console.log('true');
+            console.log(document.getElementById("currentVolume").value);
+            isMuted = true;
+            swapIcon(true);
         }
     } else {
         alert('Connectez-vous sur chromecast en premier');
@@ -85,7 +115,11 @@ document.getElementById('volDown').addEventListener('click', () => {
 
 document.getElementById('prevBtn').addEventListener('click', () => {
     if (currentSession) {
-        currentVideoIndex = (currentVideoIndex - 1) % videoList.length;
+        if (currentVideoIndex == 0) {
+            currentVideoIndex = 0;
+        } else {
+            currentVideoIndex = (currentVideoIndex - 1) % videoList.length;
+        }
         loadMedia(videoList[currentVideoIndex]);
     } else {
         alert('Connectez-vous sur chromecast en premier');
@@ -94,7 +128,11 @@ document.getElementById('prevBtn').addEventListener('click', () => {
 
 document.getElementById('nextBtn').addEventListener('click', () => {
     if (currentSession) {
-        currentVideoIndex = (currentVideoIndex + 1) % videoList.length;
+        if (currentVideoIndex == videoList.length -1) {
+            currentVideoIndex = videoList.length -1;
+        } else {
+            currentVideoIndex = (currentVideoIndex + 1) % videoList.length;
+        }
         loadMedia(videoList[currentVideoIndex]);
     } else {
         alert('Connectez-vous sur chromecast en premier');
@@ -105,12 +143,14 @@ document.getElementById('playBtn').addEventListener('click', () => {
     if (currentMediaSession) {
         if (isPlaying) {
             currentMediaSession.pause(null, onMediaCommandSuccess, onError);
+            document.getElementById("pause").style.display = "block";
             document.getElementById('pause').style.color = 'green';
-            document.getElementById('play').style.color = '#333';
+            document.getElementById('play').style.display = 'none';
         } else {
             currentMediaSession.play(null, onMediaCommandSuccess, onError);
+            document.getElementById("play").style.display = "block";
             document.getElementById('play').style.color = 'green';
-            document.getElementById('pause').style.color = '#333';
+            document.getElementById('pause').style.display = 'none';
         }
         isPlaying = !isPlaying;
     } else {

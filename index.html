@@ -28,8 +28,9 @@
             <i class="fa-solid fa-volume-off"></i>
             <i class="fa-solid fa-minus"></i></i>
         </button>
-        <button type="button" class="btn btn-outline-secondary" id="muteBtn" onclick="swapIcon">
-            <i class="fa-solid fa-volume-xmark"></i>
+        <button type="button" class="btn btn-outline-secondary" id="muteBtn">
+            <i id="muted" class="fa-solid fa-volume-xmark" style="display: none;"></i>
+            <i id="unmuted" class="fa-solid fa-volume-high"></i>
         </button>
         <button type="button" class="btn btn-outline-secondary" id="volUp">
             <i class="fa-solid fa-volume-off"></i>
@@ -59,7 +60,7 @@
             <i id="play" class="fa-solid fa-play"></i>
             <i id="pause" class="fa-solid fa-pause"></i>
         </button>
-        <button type="button" class="btn btn-outline-secondary" id="foward">
+        <button type="button" class="btn btn-outline-secondary" id="forward">
             <i class="fa-solid fa-forward"></i>
         </button>
     <br>

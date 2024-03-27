@@ -21,9 +21,10 @@ div {
 button {
     width: 80px;
     height: 60px;
+}
 
-
-
+button:active {
+    color: red;
 }
 
 
