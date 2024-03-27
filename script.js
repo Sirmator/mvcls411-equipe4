@@ -1,4 +1,3 @@
-
 let currentSession;
 let currentMediaSession;
 let isPlaying = true;
@@ -14,15 +13,10 @@ const videoList = [
     'https://transfertco.ca/video/DBillSpotted.mp4',
     'https://transfertco.ca/video/usa23_7_02.mp4',
     'https://chromecast-project.s3.us-east-2.amazonaws.com/Rick+Astley+-+Never+Gonna+Give+You+Up+(Official+Music+Video).mp4'
-
 ];
 
-// QuerySelector collects the className of the given ID 
-// theme = > i 
 const themeToggle = document.getElementById('theme');
-const btn = document.getElementById('btn');
 const icon = document.querySelector('#theme i');
-const bouton = document.querySelector('#btn i');
 
 themeToggle.addEventListener('click', function() {
     const currentTheme = document.body.getAttribute('data-bs-theme');
@@ -48,12 +42,14 @@ document.getElementById('muteBtn').addEventListener('click', () => {
     if (currentSession) {
         isMuted = !isMuted;
         currentSession.setReceiverMuted(isMuted, onMediaCommandSuccess, onError);
+        updateVolumeGauge();
     }
 });
  
 document.getElementById('volUp').addEventListener('click', () => {
     if (currentSession) {
-        currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level += 0.1, onMediaCommandSuccess, onError);
+        currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level + 0.1, onMediaCommandSuccess, onError);
+        updateVolumeGauge();
     } else {
         alert('Connectez-vous sur chromecast en premier');
     }
@@ -61,12 +57,12 @@ document.getElementById('volUp').addEventListener('click', () => {
  
 document.getElementById('volDown').addEventListener('click', () => {
     if (currentSession) {
-        currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level -= 0.1, onMediaCommandSuccess, onError);
+        currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level - 0.1, onMediaCommandSuccess, onError);
+        updateVolumeGauge();
     } else {
         alert('Connectez-vous sur chromecast en premier');
     }
 });
-
 
 document.getElementById('playBtn').addEventListener('click', () => {
     if (currentMediaSession) {
@@ -97,17 +93,15 @@ document.getElementById('backward').addEventListener('click', () => {
     }
 });
 
- function sessionListener(newSession) {
-     currentSession = newSession;
+function sessionListener(newSession) {
+    currentSession = newSession;
     loadMedia(videoList[currentVideoIndex]);
-
 }
-
 
 function initializeSeekSlider(remotePlayerController, mediaSession) {
     currentMediaSession = mediaSession;
     document.getElementById('playBtn').style.display = 'block';
- }
+}
 
 function receiverListener(availability) {
     if (availability === chrome.cast.ReceiverAvailability.AVAILABLE) {
@@ -130,11 +124,8 @@ function onMediaCommandSuccess() {
 }
 
 function initializeApiOnly() {
-    
-    
-    const sessionRequest = new chrome.cast.SessionRequest(chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID);    
+    const sessionRequest = new chrome.cast.SessionRequest(chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID);
     const apiConfig = new chrome.cast.ApiConfig(sessionRequest, sessionListener, receiverListener);
-
     chrome.cast.initialize(apiConfig, onInitSuccess, onError);
 }
 
@@ -148,7 +139,7 @@ function loadMedia(videoUrl) {
     currentSession.loadMedia(request, mediaSession => {
         console.log('Media chargé avec succès');
         initializeSeekSlider(remotePlayerController, mediaSession);
-      }, onError);
+    }, onError);
 }
 
 function formatTime(timeInSeconds) {
@@ -156,3 +147,24 @@ function formatTime(timeInSeconds) {
     const seconds = Math.floor(timeInSeconds % 60);
     return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 }
+
+const gaugeElement = document.querySelector(".gauge");
+
+function setGaugeValue(gauge, value) {
+    if (value < 0 || value > 1.2) {
+        return;
+    }
+
+    const fill = gauge.querySelector(".gauge__fill").style.transform = `rotate(${value / 2}turn)`;
+    const cover = gauge.querySelector(".gauge__cover").textContent = `${Math.round(value * 100)}%`;
+}
+
+function updateVolumeGauge(gaugeElement) {
+    if (currentSession) {
+        const volumeLevel = currentSession.receiver.volume.level;
+        setGaugeValue(gaugeElement, volumeLevel);
+    } else{
+        setGaugeValue(gaugeElement,0)
+    }
+}
+updateVolumeGauge();
