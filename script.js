@@ -16,6 +16,7 @@ const videoList = [
 
 ];
 let currentVolume = 0.48
+//let currentVolume = parseFloat(currentSession.receiver.volume.level);
 
 // QuerySelector collects the className of the given ID 
 // theme = > i 
@@ -41,6 +42,8 @@ themeToggle.addEventListener('click', function() {
 
 document.getElementById('connectButton').addEventListener('click', () => {
     initializeApiOnly();
+    document.getElementById("connectButton").style.backgroundColor = "green"
+    document.getElementById("connect").style.color = "white"
 });
 
 let isMuted = false;
@@ -52,21 +55,33 @@ document.getElementById('muteBtn').addEventListener('click', () => {
 });
  
 document.getElementById('volUp').addEventListener('click', () => {
-    if (currentSession) {
-        currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level += 0.1, onMediaCommandSuccess, onError);
+    if(!currentSession){
+        alert('Connectez-vous sur chromecast en premier')
+        return
+    }
+    if (currentVolume < 1) {
+        currentVolume += 0.04
+        currentSession.setReceiverVolumeLevel(currentVolume, onMediaCommandSuccess, onError);
+        document.getElementById('currentVolume').innerHTML = parseInt(currentVolume * 25)
+        console.log(currentVolume)
     } else {
-        alert('Connectez-vous sur chromecast en premier');
+        alert("Volume maximum de 25 déja atteint");
     }
 });
  
 document.getElementById('volDown').addEventListener('click', () => {
-    if (currentSession) {
-        currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level -= 0.1, onMediaCommandSuccess, onError);
+    if(!currentSession){
+        alert('Connectez-vous sur chromecast en premier')
+        return
+    }
+    if (currentVolume > 0) {
+        currentVolume -= 0.04
+        currentSession.setReceiverVolumeLevel(currentVolume, onMediaCommandSuccess, onError);
+        document.getElementById('currentVolume').innerHTML = parseInt(currentVolume * 25)
     } else {
-        alert('Connectez-vous sur chromecast en premier');
+        alert("Volume minimum de 0 déja atteint");
     }
 });
-
 
 
 
@@ -126,10 +141,17 @@ document.getElementById('backward').addEventListener('click', () => {
 }
 
 
-function initializeSeekSlider(remotePlayerController, mediaSession) {
+
+function setCurrentMediaSession(remotePlayerController, mediaSession) {
     currentMediaSession = mediaSession;
     document.getElementById('playBtn').style.display = 'block';
- }
+    setInitialVolume()
+}
+
+function setInitialVolume(){
+    currentVolume = currentSession.receiver.volume.level;
+    document.getElementById('currentVolume').innerHTML = parseInt(currentVolume * 25)
+}
 
 function receiverListener(availability) {
     if (availability === chrome.cast.ReceiverAvailability.AVAILABLE) {
@@ -169,7 +191,8 @@ function loadMedia(videoUrl) {
 
     currentSession.loadMedia(request, mediaSession => {
         console.log('Media chargé avec succès');
-        initializeSeekSlider(remotePlayerController, mediaSession);
+     setCurrentMediaSession(remotePlayerController, mediaSession);
+        
       }, onError);
 }
 
@@ -179,68 +202,10 @@ function formatTime(timeInSeconds) {
     return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 }
 
-
-// const themeToggle = document.getElementById('theme');
-// const btn = document.getElementById('btn');
-// const icon = document.querySelector('#theme i');
-// const bouton = document.querySelector('#btn i');
-
-// themeToggle.addEventListener('click', function() {
-//     const currentTheme = document.body.getAttribute('data-bs-theme');
-//     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-//     document.body.setAttribute('data-bs-theme', newTheme);
-
-//     if (newTheme === 'dark') {
-//         icon.classList.remove('fa-moon');
-//         icon.classList.add('fa-sun');
-
-//     } else {
-//         icon.classList.remove('fa-sun');
-//         icon.classList.add('fa-moon');
-//     }
-// });
-
-// document.getElementById('connectButton').addEventListener('click', () => {
-//     initializeApiOnly();
-// });
-
-// let isMuted = false;
-// let volumeBeforeMute = currentVolume;
-// document.getElementById('muteBtn').addEventListener('click', () => {
-//     if (currentSession) {
-//         isMuted = !isMuted;
-//         currentSession.setReceiverMuted(isMuted, onMediaCommandSuccess, onError);
-//     }
-// });
  
-// document.getElementById('volUp').addEventListener('click', () => {
-//     if(!currentSession){
-//         alert('Connectez-vous sur chromecast en premier')
-//         return
-//     }
-    
-//     if (currentVolume < 1) {
-//         currentVolume += 0.04
-//         currentSession.setReceiverVolumeLevel(currentVolume, onMediaCommandSuccess, onError);
-//         document.getElementById('currentVolume').innerHTML = parseInt(currentVolume * 25)
-//     } else {
-//         alert("Volume maximum de 25 déja atteint");
-//     }
-// });
+
  
-// document.getElementById('volDown').addEventListener('click', () => {
-//     if(!currentSession){
-//         alert('Connectez-vous sur chromecast en premier')
-//         return
-//     }
-//     if (currentVolume > 0) {
-//         currentVolume -= 0.04
-//         currentSession.setReceiverVolumeLevel(currentVolume, onMediaCommandSuccess, onError);
-//         document.getElementById('currentVolume').innerHTML = parseInt(currentVolume * 25)
-//     } else {
-//         alert("Volume minimum de 0 déja atteint");
-//     }
-// });
+
 
 // document.getElementById('currentVolume').innerHTML = currentVolume * 25
 
@@ -309,7 +274,7 @@ function formatTime(timeInSeconds) {
 // }
 
 
-// function initializeSeekSlider(remotePlayerController, mediaSession) {
+// function setCurrentMediaSession(remotePlayerController, mediaSession) {
 //     currentMediaSession = mediaSession;
 //     document.getElementById('playBtn').style.display = 'block';
 //  }
@@ -352,7 +317,7 @@ function formatTime(timeInSeconds) {
 
 //     currentSession.loadMedia(request, mediaSession => {
 //         console.log('Media chargé avec succès');
-//         initializeSeekSlider(remotePlayerController, mediaSession);
+//         setCurrentMediaSession(remotePlayerController, mediaSession);
 //       }, onError);
 // }
 
