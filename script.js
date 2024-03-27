@@ -67,25 +67,6 @@ document.getElementById('volDown').addEventListener('click', () => {
     }
 });
 
-// Faire un feed back volume Ici
-
-// document.getElementById('prevBtn').addEventListener('click', () => {
-//     if (currentSession) {
-//         currentVideoIndex = (currentVideoIndex - 1) % videoList.length;
-//         loadMedia(videoList[currentVideoIndex]);
-//     } else {
-//         alert('Connectez-vous sur chromecast en premier');
-//     }
-// });
-
-// document.getElementById('nextBtn').addEventListener('click', () => {
-//     if (currentSession) {
-//         currentVideoIndex = (currentVideoIndex + 1) % videoList.length;
-//         loadMedia(videoList[currentVideoIndex]);
-//     } else {
-//         alert('Connectez-vous sur chromecast en premier');
-//     }
-// });
 
 document.getElementById('playBtn').addEventListener('click', () => {
     if (currentMediaSession) {
@@ -126,24 +107,6 @@ document.getElementById('backward').addEventListener('click', () => {
 function initializeSeekSlider(remotePlayerController, mediaSession) {
     currentMediaSession = mediaSession;
     document.getElementById('playBtn').style.display = 'block';
-//    // Set max value of seek slider to media duration in seconds
-//    seekSlider.max = mediaSession.media.duration;
-
-//     // Update seek slider and time elements on time update
-//     updateInterval = setInterval(() => {
-//         const currentTime = mediaSession.getEstimatedTime();
-//         const totalTime = mediaSession.media.duration;
-  
-//         seekSlider.value = currentTime;
-//         currentTimeElement.textContent = formatTime(currentTime);
-//         totalTimeElement.textContent = formatTime(totalTime);
-//       }, 1000); //chaque 1000 ms... 1 sec
-  
-//       // slider change
-//       seekSlider.addEventListener('input', () => {
-//         const seekTime = parseFloat(seekSlider.value);
-//         remotePlayerController.seek(seekTime);
-    //   });
  }
 
 function receiverListener(availability) {
