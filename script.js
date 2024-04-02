@@ -52,28 +52,26 @@ document.getElementById('connectButton').addEventListener('click', () => {
     }
 });
 
-let isMuted = false;
 document.getElementById('muteBtn').addEventListener('click', () => {
     if (currentSession) {
+        let readableVolume = Math.round(currentSession.receiver.volume.level * 25);
         if (!isMuted) {
-            swapIcon(false);
+            isMuted = false;
+            currentSession.setReceiverMuted(isMuted, onMediaCommandSuccess, onError);
+            document.getElementById('currentVolume').value = readableVolume;
+            document.getElementById('volumeValue').innerHTML = "Current volume: " + readableVolume;
+            document.getElementById('muted').style.display = 'none';
+            document.getElementById('unmuted').style.display = 'block';
         } else {
             isMuted = true;
             currentSession.setReceiverMuted(isMuted, onMediaCommandSuccess, onError);
-            swapIcon(true);
+            document.getElementById('currentVolume').value = 0;
+            document.getElementById('volumeValue').innerHTML = "Current volume: Muted";
+            document.getElementById('muted').style.display = 'block';
+            document.getElementById('unmuted').style.display = 'none';
         }
     }
 });
-
-function swapIcon(bool) {
-    if (bool) {
-        document.getElementById("muted").style.display = "block"
-        document.getElementById("unmuted").style.display = "none"
-    } else if (!bool) {
-        document.getElementById("muted").style.display = "none"
-        document.getElementById("unmuted").style.display = "block"   
-    }
-}
  
 document.getElementById('volUp').addEventListener('click', () => {
     if (currentSession) {
