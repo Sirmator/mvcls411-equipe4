@@ -1,4 +1,3 @@
-
 let currentSession;
 let currentMediaSession;
 let isPlaying = true;
@@ -51,7 +50,7 @@ document.getElementById('connectButton').addEventListener('click', () => {
         location.reload();
     }
 });
-
+let isMuted = false;
 document.getElementById('muteBtn').addEventListener('click', () => {
     if (currentSession) {
         let readableVolume = Math.round(currentSession.receiver.volume.level * 25);
