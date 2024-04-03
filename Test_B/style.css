@@ -1,0 +1,50 @@
+
+.main{
+    flex-direction: column;
+    display: flex;
+    padding:20px;
+    margin: 20px;
+    height: auto;
+    width: auto;  
+    justify-content:center;
+    align-items: center;
+
+}
+
+div {
+    text-align: center;
+    margin: 5px;
+}
+
+
+
+button {
+    width: 80px;
+    height: 60px;
+
+
+
+}
+
+
+h2 {
+    padding-top: 10px;
+}
+
+body {
+    transition: background-color 0.8s;
+}
+
+body[data-bs-theme="dark"] {
+    background-color: #333;
+    color: #fff;
+}
+
+body[data-bs-theme="light"] {
+    background-color: #fff;
+    color: #333;
+}
+
+
+
+
