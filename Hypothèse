@@ -1,0 +1,34 @@
+
+
+
+HYPOTHÈSE:
+L'ajout du bouton d'état Play/Pause et l'affichage du volume amélioreront l'expérience utilisateur de la manette.
+
+
+La satisfaction des utilisateurs sera mesurée par l'efficacité opérationnelle
+
+
+Pour évaluer l'efficacité opérationnelle, j'utiliserais des indicateurs tels que :
+
+Temps de réaction : Mesurer le temps nécessaire aux utilisateurs pour effectuer des actions spécifiques, comme changer le volume ou mettre en pause/lecture.
+
+Taux d'erreur : Observer le nombre d'erreurs commises par les utilisateurs lors de l'utilisation de la manette avec les nouvelles fonctionnalités par rapport à la manette sans ces fonctionnalités.
+
+Taux d'utilisation : Analyser la fréquence à laquelle les nouvelles fonctionnalités sont utilisées par rapport à d'autres fonctionnalités de la manette.
+
+
+Objectif de l'hypothèse : Augmenter la satisfaction des utilisateurs en ajoutant des fonctionnalités de contrôle et de retour d'information.
+
+
+FONCTIONNALITÉS:
+
+
+Ajout du bouton d'état Play/Pause :
+
+Je vais modifier le bouton d'état Play/Pause qui était déja sur l'interface de la manette . Cela peut être sous la forme d'un bouton graphique avec les icônes correspondantes.
+Ensuite je vais associer une fonctionnalité de contrôle à ce bouton, de sorte qu'il puisse démarrer ou mettre en pause l'action en cours lorsque l'utilisateur clique dessus.
+Je vais m'assurer que le bouton réagit de manière appropriée aux interactions de l'utilisateur, en changeant d'apparence pour indiquer l'état de lecture/pause.
+
+Ajouter une valeur pour le volume :
+Intégrez un élément d'affichage sur l'interface de la manette virtuelle pour afficher la valeur du volume. Cela peut être un indicateur numérique ou une barre de progression.
+Associez la valeur de volume affichée à la manipulation du curseur ou des boutons de réglage du volume sur la manette virtuelle. Assurez-vous que l'affichage est mis à jour en temps réel pour refléter les ajustements du volume effectués par l'utilisateur.
