@@ -60,10 +60,32 @@
         <button type="button" class="btn btn-outline-secondary" id="foward">
             <i class="fa-solid fa-forward"></i>
         </button>
+    </div>
     <br>
+    <div class="slider-cont">
+        <div class="slider">
+            <input id="volumeSlider" type="range" min="0" max="100" value="50">
+            <progress min="0" max="100" value="50"></progress>
+        </div>
+        <div class="sliderValue">50</div>
+    </div>
 
 
 </div>
+<script>
+    window.onload = function() {
+        volumeSlider = document.getElementById("volumeSlider");
+        slider = document.querySelector(".slider input");
+        slider.oninput = function() {
+            progressBar = document.querySelector(".slider progress");
+            progressBar.value = slider.value;
+            sliderValue = document.querySelector(".sliderValue")
+            sliderValue.innerHTML = slider.value;
+            
+        }
+        
+    }
+</script>
 
 <script src="./script.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
