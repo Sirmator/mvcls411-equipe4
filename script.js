@@ -158,13 +158,11 @@ document.getElementById('playBtn').addEventListener('click', () => {
 function showPlaying() {
     document.getElementById("play").style.display = "block";
     document.getElementById('pause').style.display = 'none';
-    document.getElementById("play").style.color = "green";
 } 
 
 function showPaused() {
     document.getElementById("play").style.display = "none";
     document.getElementById('pause').style.display = 'block';
-    document.getElementById("pause").style.color = "green";
 }
 
 document.getElementById('forward').addEventListener('click', () => {
@@ -200,24 +198,6 @@ document.getElementById('backward').addEventListener('click', () => {
 function initializeSeekSlider(remotePlayerController, mediaSession) {
     currentMediaSession = mediaSession;
     document.getElementById('playBtn').style.display = 'block';
-//    // Set max value of seek slider to media duration in seconds
-//    seekSlider.max = mediaSession.media.duration;
-
-//     // Update seek slider and time elements on time update
-//     updateInterval = setInterval(() => {
-//         const currentTime = mediaSession.getEstimatedTime();
-//         const totalTime = mediaSession.media.duration;
-  
-//         seekSlider.value = currentTime;
-//         currentTimeElement.textContent = formatTime(currentTime);
-//         totalTimeElement.textContent = formatTime(totalTime);
-//       }, 1000); //chaque 1000 ms... 1 sec
-  
-//       // slider change
-//       seekSlider.addEventListener('input', () => {
-//         const seekTime = parseFloat(seekSlider.value);
-//         remotePlayerController.seek(seekTime);
-    //   });
  }
 
 function receiverListener(availability) {
