@@ -56,6 +56,7 @@ document.getElementById('muteBtn').addEventListener('click', () => {
 document.getElementById('volUp').addEventListener('click', () => {
     if (currentSession) {
         currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level += 0.1, onMediaCommandSuccess, onError);
+        updateProgressBar(currentSession.receiver.volume.level * 100);
     } else {
         alert('Connectez-vous sur chromecast en premier');
     }
@@ -64,15 +65,22 @@ document.getElementById('volUp').addEventListener('click', () => {
 document.getElementById('volDown').addEventListener('click', () => {
     if (currentSession) {
         currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level -= 0.1, onMediaCommandSuccess, onError);
+        updateProgressBar(currentSession.receiver.volume.level * 100);
     } else {
         alert('Connectez-vous sur chromecast en premier');
     }
     console.timeEnd('volume');
 });
 
-function updateProgressBar(volumeLevel) {
-    const progressBar = document.getElementById("progressBar");
-    progressBar.value = volumeLevel * 100;
+function updateProgressBar(value) {
+    // S'assurer que la valeur est comprise entre 0 et 100
+    value = Math.max(0, Math.min(value, 100));
+
+    const progressBar = document.getElementById('progressBar');
+    progressBar.value = value;
+
+    const sliderValue = document.querySelector('.sliderValue');
+    sliderValue.textContent = value.toFixed(0); // Afficher la valeur sans décimales
 }
 
 
@@ -97,20 +105,21 @@ document.getElementById('nextBtn').addEventListener('click', () => {
 });
 
 document.getElementById('playBtn').addEventListener('click', () => {
-    
     if (currentMediaSession) {
         if (isPlaying) {
             currentMediaSession.pause(null, onMediaCommandSuccess, onError);
-            document.getElementById("playbtn").className("fa-solid fa-pause");
+            document.getElementById("playIcon").classList.remove("fa-pause");
+            document.getElementById("playIcon").classList.add("fa-play");
         } else {
             currentMediaSession.play(null, onMediaCommandSuccess, onError);
-            document.getElementById("playbtn").className("fa-solid fa-play");
+            document.getElementById("playIcon").classList.remove("fa-play");
+            document.getElementById("playIcon").classList.add("fa-pause");
         }
         isPlaying = !isPlaying;
-
     }
     console.timeEnd('clic_play');
 });
+
 
 document.getElementById('forward').addEventListener('click', () => {
     if (currentMediaSession) {
