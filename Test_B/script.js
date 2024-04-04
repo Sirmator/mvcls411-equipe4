@@ -41,6 +41,8 @@ themeToggle.addEventListener('click', function() {
 
 document.getElementById('connectButton').addEventListener('click', () => {
     initializeApiOnly();
+    console.time('volume');
+    console.time('clic_play');
 });
 
 let isMuted = false;
@@ -65,7 +67,13 @@ document.getElementById('volDown').addEventListener('click', () => {
     } else {
         alert('Connectez-vous sur chromecast en premier');
     }
+    console.timeEnd('volume');
 });
+
+function updateProgressBar(volumeLevel) {
+    const progressBar = document.getElementById("progressBar");
+    progressBar.value = volumeLevel * 100;
+}
 
 
 
@@ -89,7 +97,7 @@ document.getElementById('nextBtn').addEventListener('click', () => {
 });
 
 document.getElementById('playBtn').addEventListener('click', () => {
-    console.time('clic_play');
+    
     if (currentMediaSession) {
         if (isPlaying) {
             currentMediaSession.pause(null, onMediaCommandSuccess, onError);
