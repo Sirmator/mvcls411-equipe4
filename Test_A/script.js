@@ -52,19 +52,23 @@ document.getElementById('muteBtn').addEventListener('click', () => {
 });
  
 document.getElementById('volUp').addEventListener('click', () => {
+    console.time('volume_up');
     if (currentSession) {
         currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level += 0.1, onMediaCommandSuccess, onError);
     } else {
         alert('Connectez-vous sur chromecast en premier');
     }
+    console.timeEnd('volume_up');
 });
  
 document.getElementById('volDown').addEventListener('click', () => {
+    console.time('volume_down');
     if (currentSession) {
         currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level -= 0.1, onMediaCommandSuccess, onError);
     } else {
         alert('Connectez-vous sur chromecast en premier');
     }
+    console.timeEnd('volume_down');
 });
 
 
@@ -89,6 +93,7 @@ document.getElementById('nextBtn').addEventListener('click', () => {
 });
 
 document.getElementById('playBtn').addEventListener('click', () => {
+    console.time('clic_play');
     if (currentMediaSession) {
         if (isPlaying) {
             currentMediaSession.pause(null, onMediaCommandSuccess, onError);
@@ -97,6 +102,7 @@ document.getElementById('playBtn').addEventListener('click', () => {
         }
         isPlaying = !isPlaying;
     }
+    console.timeEnd('clic_play');
 });
 
 document.getElementById('forward').addEventListener('click', () => {
