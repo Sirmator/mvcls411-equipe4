@@ -77,10 +77,12 @@
         volumeSlider = document.getElementById("volumeSlider");
         slider = document.querySelector(".slider input");
         slider.oninput = function() {
+            console.time('changement_volume');
             progressBar = document.querySelector(".slider progress");
             progressBar.value = slider.value;
             sliderValue = document.querySelector(".sliderValue")
             sliderValue.innerHTML = slider.value;
+            console.timeEnd('changement_volume');
             
         }
         
