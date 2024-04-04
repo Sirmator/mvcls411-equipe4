@@ -76,20 +76,21 @@ document.getElementById('playBtn').addEventListener('click', () => {
 });
 
 document.getElementById('forward').addEventListener('click', () => {
-    if (currentMediaSession) {
-        const futureSeekTime = currentMediaSession.getEstimatedTime() + 15;
-        const seekRequest = new chrome.cast.media.SeekRequest();
-        seekRequest.currentTime = futureSeekTime;
-        currentMediaSession.seek(seekRequest, onMediaCommandSuccess, onError);
+    if (currentSession) {
+        currentVideoIndex = (currentVideoIndex + 1) % videoList.length;
+        loadMedia(videoList[currentVideoIndex]);
+    } else {
+        alert('Connectez-vous sur chromecast en premier');
     }
 });
 
 document.getElementById('backward').addEventListener('click', () => {
-    if (currentMediaSession) {
-        const seekTime = Math.max(0, currentMediaSession.getEstimatedTime() - 15);
-        const seekRequest = new chrome.cast.media.SeekRequest();
-        seekRequest.currentTime = seekTime;
-        currentMediaSession.seek(seekRequest, onMediaCommandSuccess, onError);
+    console.log(currentSession)
+    if (currentSession) {
+        currentVideoIndex = (currentVideoIndex - 1) % videoList.length;
+        loadMedia(videoList[currentVideoIndex]);
+    } else {
+        alert('Connectez-vous sur chromecast en premier');
     }
 });
 
