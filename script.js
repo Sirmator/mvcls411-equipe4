@@ -120,7 +120,6 @@ document.getElementById('volUp').addEventListener('click', () => {
     }
 });
 
-
 document.getElementById('playBtn').addEventListener('click', () => {
     if (currentMediaSession) {
         if (isPlaying) {
@@ -129,8 +128,22 @@ document.getElementById('playBtn').addEventListener('click', () => {
             currentMediaSession.play(null, onMediaCommandSuccess, onError);
         }
         isPlaying = !isPlaying;
+        updatePlayPauseIcon(); 
     }
 });
+
+
+function updatePlayPauseIcon() {
+    const playIcon = document.querySelector('#playBtn .fa-play');
+    const pauseIcon = document.querySelector('#playBtn .fa-pause');
+    if (isPlaying) {
+        playIcon.style.display = 'inline-block';
+        pauseIcon.style.display = 'none';
+    } else {
+        pauseIcon.style.display = 'inline-block';
+        playIcon.style.display = 'none';
+    }
+}
 
 document.getElementById('forward').addEventListener('click', () => {
     if (currentSession) {
