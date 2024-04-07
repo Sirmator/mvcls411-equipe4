@@ -31,19 +31,19 @@ h2 {
     padding-top: 10px;
 }
 
-body {
-    transition: background-color 0.8s;
-}
+
 
 body[data-bs-theme="dark"] {
     background-color: #333;
     color: #fff;
 }
 
-body[data-bs-theme="light"] {
-    background-color: #fff;
-    color: #333;
+body[data-bs-theme="light"] .gauge__cover {
+    background: #fff; 
+    color: #333; 
+    transition: 1s;
 }
+
 
 
 
@@ -82,12 +82,13 @@ body[data-bs-theme="light"] {
   .gauge__cover {
     width: 75%;
     height: 150%;
-    background: #ffffff;
+    background: #333;
     border-radius: 50%;
     position: absolute;
     top: 25%;
     left: 50%;
     transform: translateX(-50%);
+    transition: .8s;
   
     /* Text */
     display: flex;

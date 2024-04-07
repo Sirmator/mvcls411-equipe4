@@ -37,19 +37,37 @@ document.getElementById('connectButton').addEventListener('click', () => {
     initializeApiOnly();
 });
 
+const gaugeElement = document.querySelector(".gauge");
+function setGaugeValue(gauge, value) {
+if (value < 0 || value > 1) {
+    return;
+}
+
+gauge.querySelector(".gauge__fill").style.transform = `rotate(${
+    value / 2
+}turn)`;
+gauge.querySelector(".gauge__cover").textContent = `${Math.round(
+    value * 100
+)}%`;
+}
+
+
 let isMuted = false;
 document.getElementById('muteBtn').addEventListener('click', () => {
     if (currentSession) {
         isMuted = !isMuted;
         currentSession.setReceiverMuted(isMuted, onMediaCommandSuccess, onError);
-        updateVolumeGauge();
+        setGaugeValue(gaugeElement, .0);
     }
 });
  
 document.getElementById('volUp').addEventListener('click', () => {
     if (currentSession) {
+        const volumeValue = (Math.round(currentSession.receiver.volume.level * 100) / 100) ;
         currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level + 0.1, onMediaCommandSuccess, onError);
-        updateVolumeGauge();
+        console.log("Valeur du volume actuelle : ", volumeValue);
+        setGaugeValue(gaugeElement, volumeValue);
+        
     } else {
         alert('Connectez-vous sur chromecast en premier');
     }
@@ -57,8 +75,11 @@ document.getElementById('volUp').addEventListener('click', () => {
  
 document.getElementById('volDown').addEventListener('click', () => {
     if (currentSession) {
+        const volumeValue = (Math.round(currentSession.receiver.volume.level * 100) / 100);
         currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level - 0.1, onMediaCommandSuccess, onError);
-        updateVolumeGauge();
+        console.log("Valeur du volume actuelle : ", volumeValue);
+        setGaugeValue(gaugeElement, volumeValue);
+       
     } else {
         alert('Connectez-vous sur chromecast en premier');
     }
@@ -149,23 +170,3 @@ function formatTime(timeInSeconds) {
     return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 }
 
-const gaugeElement = document.querySelector(".gauge");
-
-function setGaugeValue(gauge, value) {
-    if (value < 0 || value > 1.2) {
-        return;
-    }
-
-    const fill = gauge.querySelector(".gauge__fill").style.transform = `rotate(${value / 2}turn)`;
-    const cover = gauge.querySelector(".gauge__cover").textContent = `${Math.round(value * 100)}%`;
-}
-
-function updateVolumeGauge(gaugeElement) {
-    if (currentSession) {
-        const volumeLevel = currentSession.receiver.volume.level;
-        setGaugeValue(gaugeElement, volumeLevel);
-    } else{
-        setGaugeValue(gaugeElement,0)
-    }
-}
-updateVolumeGauge();
