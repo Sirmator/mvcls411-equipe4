@@ -50,40 +50,76 @@ gauge.querySelector(".gauge__cover").textContent = `${Math.round(
     value * 100
 )}%`;
 }
-
-
+let currentVolume = 1.0; 
 let isMuted = false;
 document.getElementById('muteBtn').addEventListener('click', () => {
     if (currentSession) {
         isMuted = !isMuted;
+        if (isMuted) {
+            previousVolume = currentVolume; 
+            currentVolume = 0; 
+        } else {
+            currentVolume = previousVolume; 
+        }
         currentSession.setReceiverMuted(isMuted, onMediaCommandSuccess, onError);
-        setGaugeValue(gaugeElement, .0);
+        setGaugeValue(gaugeElement, isMuted ? 0 : currentVolume); // Réglez la jauge à 0 si muet, sinon à la valeur actuelle du volume
+
+       
+        const muteIcon = document.querySelector('#muteBtn i');
+        if (isMuted) {
+            muteIcon.classList.add('fa-volume-xmark');
+            muteIcon.classList.remove('fa-volume-high');
+        } else {
+            muteIcon.classList.add('fa-volume-high');
+            muteIcon.classList.remove('fa-volume-xmark');
+        }
     }
 });
- 
-document.getElementById('volUp').addEventListener('click', () => {
-    if (currentSession) {
-        const volumeValue = (Math.round(currentSession.receiver.volume.level * 100) / 100) ;
-        currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level + 0.1, onMediaCommandSuccess, onError);
-        console.log("Valeur du volume actuelle : ", volumeValue);
-        setGaugeValue(gaugeElement, volumeValue);
-        
-    } else {
-        alert('Connectez-vous sur chromecast en premier');
-    }
-});
- 
+
+
+
 document.getElementById('volDown').addEventListener('click', () => {
     if (currentSession) {
-        const volumeValue = (Math.round(currentSession.receiver.volume.level * 100) / 100);
-        currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level - 0.1, onMediaCommandSuccess, onError);
-        console.log("Valeur du volume actuelle : ", volumeValue);
-        setGaugeValue(gaugeElement, volumeValue);
-       
+        if (isMuted) {
+        
+            isMuted = false;
+            const muteIcon = document.querySelector('#muteBtn i');
+            muteIcon.classList.remove('fa-volume-xmark');
+            muteIcon.classList.add('fa-volume-high');
+            console.log("Valeur du volume actuelle : ", currentVolume);
+            currentSession.setReceiverMuted(false, onMediaCommandSuccess, onError);
+        } else {
+            currentVolume = Math.max(currentVolume - 0.1, 0.0); 
+            currentSession.setReceiverVolumeLevel(currentVolume, onMediaCommandSuccess, onError);
+            console.log("Valeur du volume actuelle : ", currentVolume);
+            setGaugeValue(gaugeElement, currentVolume);
+        }
     } else {
         alert('Connectez-vous sur chromecast en premier');
     }
 });
+
+document.getElementById('volUp').addEventListener('click', () => {
+    if (currentSession) {
+        if (isMuted) {
+        
+            isMuted = false;
+            const muteIcon = document.querySelector('#muteBtn i');
+            muteIcon.classList.remove('fa-volume-xmark');
+            muteIcon.classList.add('fa-volume-high');
+            currentSession.setReceiverMuted(false, onMediaCommandSuccess, onError);
+        } else {
+        
+            currentVolume = Math.min(currentVolume + 0.1, 1.0); 
+            currentSession.setReceiverVolumeLevel(currentVolume, onMediaCommandSuccess, onError);
+            console.log("Valeur du volume actuelle : ", currentVolume);
+            setGaugeValue(gaugeElement, currentVolume);
+        }
+    } else {
+        alert('Connectez-vous sur chromecast en premier');
+    }
+});
+
 
 document.getElementById('playBtn').addEventListener('click', () => {
     if (currentMediaSession) {
