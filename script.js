@@ -144,10 +144,10 @@ document.getElementById('playBtn').addEventListener('click', () => {
     if (currentMediaSession) {
         if (isPlaying) {
             currentMediaSession.pause(null, onMediaCommandSuccess, onError);
-            showPaused();
+            showPlaying();
         } else {
             currentMediaSession.play(null, onMediaCommandSuccess, onError);
-            showPlaying();
+            showPaused();
         }
         isPlaying = !isPlaying;
     } else {
@@ -192,6 +192,7 @@ document.getElementById('backward').addEventListener('click', () => {
     loadMedia(videoList[currentVideoIndex]);
     currentSession.setReceiverVolumeLevel(0.4, onMediaCommandSuccess, onError);
     document.getElementById('volumeValue').innerHTML = "Current volume: 10";
+    showPaused();
 }
 
 
