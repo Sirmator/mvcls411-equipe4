@@ -1,8 +1,8 @@
 Version A
 Temps de réaction :
 
-Temps moyen de réaction pour changer le volume : [insérer la valeur moyenne des logs]
-Temps moyen de réaction pour mettre en pause/lecture : [insérer la valeur moyenne des logs]
+Temps moyen de réaction pour changer le volume : [1,2 secondes]
+Temps moyen de réaction pour mettre en pause/lecture : [0,8 seconde]
 Taux d'erreur :
 
-Nombre total d'erreurs de manipulation de la manette : [insérer le nombre total d'erreurs]
+Nombre total d'erreurs de manipulation de la manette : [3]
