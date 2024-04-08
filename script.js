@@ -1,3 +1,4 @@
+
 let currentSession;
 let currentMediaSession;
 let isPlaying = true;
@@ -15,8 +16,6 @@ const videoList = [
     'https://chromecast-project.s3.us-east-2.amazonaws.com/Rick+Astley+-+Never+Gonna+Give+You+Up+(Official+Music+Video).mp4'
 
 ];
-let currentVolume = 0.48
-
 
 // QuerySelector collects the className of the given ID 
 // theme = > i 
@@ -42,8 +41,6 @@ themeToggle.addEventListener('click', function() {
 
 document.getElementById('connectButton').addEventListener('click', () => {
     initializeApiOnly();
-    document.getElementById("connectButton").style.backgroundColor = "green"
-    document.getElementById("connect").style.color = "white"
 });
 
 let isMuted = false;
@@ -55,33 +52,21 @@ document.getElementById('muteBtn').addEventListener('click', () => {
 });
  
 document.getElementById('volUp').addEventListener('click', () => {
-    if(!currentSession){
-        alert('Connectez-vous sur chromecast en premier')
-        return
-    }
-    if (currentVolume < 1) {
-        currentVolume += 0.04
-        currentSession.setReceiverVolumeLevel(currentVolume, onMediaCommandSuccess, onError);
-        document.getElementById('currentVolume').innerHTML = parseInt(currentVolume * 25)
-        console.log(currentVolume)
+    if (currentSession) {
+        currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level += 0.1, onMediaCommandSuccess, onError);
     } else {
-        alert("Volume maximum de 25 déja atteint");
+        alert('Connectez-vous sur chromecast en premier');
     }
 });
  
 document.getElementById('volDown').addEventListener('click', () => {
-    if(!currentSession){
-        alert('Connectez-vous sur chromecast en premier')
-        return
-    }
-    if (currentVolume > 0) {
-        currentVolume -= 0.04
-        currentSession.setReceiverVolumeLevel(currentVolume, onMediaCommandSuccess, onError);
-        document.getElementById('currentVolume').innerHTML = parseInt(currentVolume * 25)
+    if (currentSession) {
+        currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level -= 0.1, onMediaCommandSuccess, onError);
     } else {
-        alert("Volume minimum de 0 déja atteint");
+        alert('Connectez-vous sur chromecast en premier');
     }
 });
+
 
 
 
@@ -104,13 +89,11 @@ document.getElementById('nextBtn').addEventListener('click', () => {
 });
 
 document.getElementById('playBtn').addEventListener('click', () => {
-    if(currentMediaSession){
+    if (currentMediaSession) {
         if (isPlaying) {
             currentMediaSession.pause(null, onMediaCommandSuccess, onError);
-            document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-play"></i>'
         } else {
             currentMediaSession.play(null, onMediaCommandSuccess, onError);
-            document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-pause"></i>'
         }
         isPlaying = !isPlaying;
     }
@@ -141,17 +124,28 @@ document.getElementById('backward').addEventListener('click', () => {
 }
 
 
-
-function setCurrentMediaSession(remotePlayerController, mediaSession) {
+function initializeSeekSlider(remotePlayerController, mediaSession) {
     currentMediaSession = mediaSession;
     document.getElementById('playBtn').style.display = 'block';
-    setInitialVolume()
-}
+//    // Set max value of seek slider to media duration in seconds
+//    seekSlider.max = mediaSession.media.duration;
 
-function setInitialVolume(){
-    currentVolume = currentSession.receiver.volume.level;
-    document.getElementById('currentVolume').innerHTML = parseInt(currentVolume * 25)
-}
+//     // Update seek slider and time elements on time update
+//     updateInterval = setInterval(() => {
+//         const currentTime = mediaSession.getEstimatedTime();
+//         const totalTime = mediaSession.media.duration;
+  
+//         seekSlider.value = currentTime;
+//         currentTimeElement.textContent = formatTime(currentTime);
+//         totalTimeElement.textContent = formatTime(totalTime);
+//       }, 1000); //chaque 1000 ms... 1 sec
+  
+//       // slider change
+//       seekSlider.addEventListener('input', () => {
+//         const seekTime = parseFloat(seekSlider.value);
+//         remotePlayerController.seek(seekTime);
+    //   });
+ }
 
 function receiverListener(availability) {
     if (availability === chrome.cast.ReceiverAvailability.AVAILABLE) {
@@ -174,6 +168,8 @@ function onMediaCommandSuccess() {
 }
 
 function initializeApiOnly() {
+    
+    
     const sessionRequest = new chrome.cast.SessionRequest(chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID);    
     const apiConfig = new chrome.cast.ApiConfig(sessionRequest, sessionListener, receiverListener);
 
@@ -189,7 +185,12 @@ function loadMedia(videoUrl) {
 
     currentSession.loadMedia(request, mediaSession => {
         console.log('Media chargé avec succès');
-     setCurrentMediaSession(remotePlayerController, mediaSession);
-        
+        initializeSeekSlider(remotePlayerController, mediaSession);
       }, onError);
+}
+
+function formatTime(timeInSeconds) {
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = Math.floor(timeInSeconds % 60);
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 }
