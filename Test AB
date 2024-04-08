@@ -1,1 +1,7 @@
+La version B présente une amélioration significative du temps de réaction pour changer le volume, passant de 1,2 secondes dans la version A à 1,05 secondes dans la version B. Cela indique une meilleure efficacité dans la manipulation du volume.
 
+Le temps de réaction pour mettre en pause/lecture est resté constant entre les deux versions, à 0,8 seconde.
+
+En termes de taux d'erreur, la version B a enregistré un nombre total d'erreurs de manipulation de la manette beaucoup plus faible que la version A, avec seulement 1 erreur contre 3 pour la version A. Cela suggère une amélioration de la convivialité et de la facilité d'utilisation de la manette dans la version B.
+
+En conclusion, la version B semble offrir des performances supérieures à la version A en termes de temps de réaction et de taux d'erreur, ce qui en fait un choix potentiellement plus attractif pour les utilisateurs.
