@@ -145,9 +145,9 @@ document.getElementById('backward').addEventListener('click', () => {
 function setCurrentMediaSession(remotePlayerController, mediaSession) {
     currentMediaSession = mediaSession;
     document.getElementById('playBtn').style.display = 'block';
- }
     setInitialVolume()
 }
+
 
 function setInitialVolume(){
     currentVolume = currentSession.receiver.volume.level;
