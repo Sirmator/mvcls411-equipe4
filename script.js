@@ -12,12 +12,8 @@ const videoList = [
     'https://transfertco.ca/video/DBillPrelude.mp4',
     'https://transfertco.ca/video/DBillSpotted.mp4',
     'https://transfertco.ca/video/usa23_7_02.mp4',
-    'https://chromecast-project.s3.us-east-2.amazonaws.com/Rick+Astley+-+Never+Gonna+Give+You+Up+(Official+Music+Video).mp4'
-
 ];
 
-// QuerySelector collects the className of the given ID 
-// theme = > i 
 const themeToggle = document.getElementById('theme');
 const btn = document.getElementById('btn');
 const icon = document.querySelector('#theme i');
@@ -43,6 +39,8 @@ document.getElementById('connectButton').addEventListener('click', () => {
         initializeApiOnly();
         document.getElementById("connectButton").style.color = "green";
         document.getElementById('connectButton').style.border = 'solid #66b239 2px';
+        console.time('VolumeTest');
+        console.time('PauseTest');
     } else {
         currentSession = null;
         currentMediaSession = null;
@@ -82,6 +80,9 @@ document.getElementById('volUp').addEventListener('click', () => {
             let readableVolume = Math.round(currentSession.receiver.volume.level * 25);
             document.getElementById('currentVolume').value = readableVolume;
             document.getElementById('volumeValue').innerHTML = "Current volume: " + readableVolume;
+            if (readableVolume == 23) {
+                console.timeEnd('VolumeTest');
+            }
         }
     } else {
         alert('Connectez-vous sur chromecast en premier');
@@ -148,6 +149,7 @@ document.getElementById('playBtn').addEventListener('click', () => {
         } else {
             currentMediaSession.play(null, onMediaCommandSuccess, onError);
             showPaused();
+            console.timeEnd('PauseTest');
         }
         isPlaying = !isPlaying;
     } else {
@@ -192,6 +194,7 @@ document.getElementById('backward').addEventListener('click', () => {
     loadMedia(videoList[currentVideoIndex]);
     currentSession.setReceiverVolumeLevel(0.4, onMediaCommandSuccess, onError);
     document.getElementById('volumeValue').innerHTML = "Current volume: 10";
+    document.getElementById('currentVolume').value = 10;
     showPaused();
 }
 

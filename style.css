@@ -45,3 +45,7 @@ body[data-bs-theme="light"] {
     background-color: #fff;
     color: #333;
 }
+
+p {
+    line-height: 15px;
+}
