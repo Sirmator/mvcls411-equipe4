@@ -21,9 +21,6 @@ div {
 button {
     width: 80px;
     height: 60px;
-
-
-
 }
 
 
@@ -45,6 +42,28 @@ body[data-bs-theme="light"] {
     color: #333;
 }
 
-
+.progress{
+    -webkit-clip-path: polygon(100% 0, 100% 100%, 0 100%);
+    background: #4AA555;
+    height: 7em;
+    width: 100%;
+  }
+  
+  .progress::before{
+    height: inherit;
+    width: var(--progress);
+    background: #EC5726;
+    content: " ";
+    display: block;
+    animation: progression 1s;
+  }
+  
+  @keyframes progression{
+    0% {
+      width: 0%
+    }
+  }
+  
+  
 
 

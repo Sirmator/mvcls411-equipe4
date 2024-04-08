@@ -1,10 +1,10 @@
-
 let currentSession;
 let currentMediaSession;
 let isPlaying = true;
 let currentVideoIndex = 0;
 let currentVideoUrl;
 let updateInterval;
+let volumeValue = 0;
 const seekSlider = document.getElementById('seekSlider');
 const currentTimeElement = document.getElementById('currentTime');
 const totalTimeElement = document.getElementById('totalTime');
@@ -12,17 +12,15 @@ const defaultContentType = 'video/mp4';
 const videoList = [
     'https://transfertco.ca/video/DBillPrelude.mp4',
     'https://transfertco.ca/video/DBillSpotted.mp4',
-    'https://transfertco.ca/video/usa23_7_02.mp4',
-    'https://chromecast-project.s3.us-east-2.amazonaws.com/Rick+Astley+-+Never+Gonna+Give+You+Up+(Official+Music+Video).mp4'
-
+    'https://transfertco.ca/video/usa23_7_02.mp4'
 ];
-
-// QuerySelector collects the className of the given ID 
-// theme = > i 
+const progressBar = document.querySelector('.progress');
 const themeToggle = document.getElementById('theme');
 const btn = document.getElementById('btn');
 const icon = document.querySelector('#theme i');
 const bouton = document.querySelector('#btn i');
+const playPause = document.getElementById('playBtn');
+const iconVolumeState = document.getElementById('iconVolume');
 
 themeToggle.addEventListener('click', function() {
     const currentTheme = document.body.getAttribute('data-bs-theme');
@@ -38,9 +36,10 @@ themeToggle.addEventListener('click', function() {
         icon.classList.add('fa-moon');
     }
 });
-
 document.getElementById('connectButton').addEventListener('click', () => {
+    console.time("ChromeCast connected");
     initializeApiOnly();
+    console.timeEnd("ChromeCast connected");
 });
 
 let isMuted = false;
@@ -48,26 +47,36 @@ document.getElementById('muteBtn').addEventListener('click', () => {
     if (currentSession) {
         isMuted = !isMuted;
         currentSession.setReceiverMuted(isMuted, onMediaCommandSuccess, onError);
+        isMuted?iconVolumeState.className="fa-solid fa-volume-off":iconVolumeState.className="fa-solid fa-volume-up"
     }
 });
  
 document.getElementById('volUp').addEventListener('click', () => {
     if (currentSession) {
-        currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level += 0.1, onMediaCommandSuccess, onError);
+       currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level += 0.1, onMediaCommandSuccess, onError);
+       volumeValue = (currentSession.receiver.volume.level / 1.1) * 100;
+       progressBar.style.setProperty('--progress', `${volumeValue + 10}%`);
+       volumeValue<8?iconVolumeState.className="fa-solid fa-volume-off":iconVolumeState.className="fa-solid fa-volume-up";
+       console.log(currentSession.receiver.volume.level)
+
     } else {
         alert('Connectez-vous sur chromecast en premier');
     }
 });
  
 document.getElementById('volDown').addEventListener('click', () => {
+
     if (currentSession) {
         currentSession.setReceiverVolumeLevel(currentSession.receiver.volume.level -= 0.1, onMediaCommandSuccess, onError);
+        volumeValue = (currentSession.receiver.volume.level / 1.1) * 100;
+        progressBar.style.setProperty('--progress', `${volumeValue}%`);
+        volumeValue<8?iconVolumeState.className="fa-solid fa-volume-off":iconVolumeState.className="fa-solid fa-volume-up";
+        console.log(currentSession.receiver.volume.level)
+
     } else {
         alert('Connectez-vous sur chromecast en premier');
     }
 });
-
-
 
 
 document.getElementById('prevBtn').addEventListener('click', () => {
@@ -88,18 +97,22 @@ document.getElementById('nextBtn').addEventListener('click', () => {
     }
 });
 
-document.getElementById('playBtn').addEventListener('click', () => {
+playPause.addEventListener('click', () => {
     if (currentMediaSession) {
         if (isPlaying) {
+            console.time("Video play and pause");
+            document.getElementById('btnPlayState').className = 'fa-solid fa-play';
             currentMediaSession.pause(null, onMediaCommandSuccess, onError);
         } else {
+            console.timeEnd("Video play and pause");
+            document.getElementById('btnPlayState').className = 'fa-solid fa-pause';
             currentMediaSession.play(null, onMediaCommandSuccess, onError);
         }
         isPlaying = !isPlaying;
     }
 });
 
-document.getElementById('forward').addEventListener('click', () => {
+document.getElementById('foward').addEventListener('click', () => {
     if (currentMediaSession) {
         const futureSeekTime = currentMediaSession.getEstimatedTime() + 15;
         const seekRequest = new chrome.cast.media.SeekRequest();
@@ -117,64 +130,45 @@ document.getElementById('backward').addEventListener('click', () => {
     }
 });
 
- function sessionListener(newSession) {
+function sessionListener(newSession) {
      currentSession = newSession;
     loadMedia(videoList[currentVideoIndex]);
 
-}
-
+};
 
 function initializeSeekSlider(remotePlayerController, mediaSession) {
     currentMediaSession = mediaSession;
     document.getElementById('playBtn').style.display = 'block';
-//    // Set max value of seek slider to media duration in seconds
-//    seekSlider.max = mediaSession.media.duration;
-
-//     // Update seek slider and time elements on time update
-//     updateInterval = setInterval(() => {
-//         const currentTime = mediaSession.getEstimatedTime();
-//         const totalTime = mediaSession.media.duration;
-  
-//         seekSlider.value = currentTime;
-//         currentTimeElement.textContent = formatTime(currentTime);
-//         totalTimeElement.textContent = formatTime(totalTime);
-//       }, 1000); //chaque 1000 ms... 1 sec
-  
-//       // slider change
-//       seekSlider.addEventListener('input', () => {
-//         const seekTime = parseFloat(seekSlider.value);
-//         remotePlayerController.seek(seekTime);
-    //   });
- }
+ };
 
 function receiverListener(availability) {
+
     if (availability === chrome.cast.ReceiverAvailability.AVAILABLE) {
         document.getElementById('connectButton').style.display = 'block';
     } else {
         document.getElementById('connectButton').style.display = 'none';
     }
-}
+};
 
 function onInitSuccess() {
     console.log('Chromecast init success');
-}
+};
 
 function onError(error) {
     console.error('Chromecast initialization error', error);
-}
+};
 
 function onMediaCommandSuccess() {
     console.log('Media command success');
-}
+};
 
 function initializeApiOnly() {
-    
     
     const sessionRequest = new chrome.cast.SessionRequest(chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID);    
     const apiConfig = new chrome.cast.ApiConfig(sessionRequest, sessionListener, receiverListener);
 
     chrome.cast.initialize(apiConfig, onInitSuccess, onError);
-}
+};
 
 function loadMedia(videoUrl) {
     currentVideoUrl = videoUrl;
@@ -187,10 +181,10 @@ function loadMedia(videoUrl) {
         console.log('Media chargé avec succès');
         initializeSeekSlider(remotePlayerController, mediaSession);
       }, onError);
-}
+};
 
 function formatTime(timeInSeconds) {
     const minutes = Math.floor(timeInSeconds / 60);
     const seconds = Math.floor(timeInSeconds % 60);
     return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-}
+};
